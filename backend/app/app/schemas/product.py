@@ -7,11 +7,15 @@ from pydantic import BaseModel
 class ProductBase(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
+    price: Optional[int] = None
+    quantity: Optional[int] = None
 
 
 # Properties to receive on item creation
 class ProductCreate(ProductBase):
     title: str
+    price: int
+    quantity: int
 
 
 # Properties to receive on item update
@@ -23,6 +27,8 @@ class ProductUpdate(ProductBase):
 class ProductInDBBase(ProductBase):
     id: int
     title: str
+    price: int
+    quantity: int
     creator_id: int
 
     class Config:

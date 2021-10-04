@@ -19,4 +19,4 @@ class Product(Base):
 
     creator_id = Column(Integer, ForeignKey("user.id"))
     creator = relationship("User", back_populates="products")
-    images = relationship("Image", back_populates='products')
+    images = relationship("Image", back_populates='product')

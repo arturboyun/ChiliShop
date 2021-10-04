@@ -13,6 +13,20 @@ run_tests_coverage:
 
 dev:
 	docker-compose up -d
+	docker-compose logs -f backend
 
 dev_build:
 	docker-compose up -d --build
+	docker-compose logs -f
+
+down:
+	docker-compose down
+
+logs_backend:
+	docker-compose logs -f backend
+
+logs_proxy:
+	docker-compose logs -f proxy
+
+logs_frontend:
+	docker-compose logs -f frontend
