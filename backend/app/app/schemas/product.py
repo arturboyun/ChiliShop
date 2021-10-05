@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
-
+from app.schemas.image import Image
 
 # Shared properties
 class ProductBase(BaseModel):
@@ -30,6 +30,7 @@ class ProductInDBBase(ProductBase):
     price: int
     quantity: int
     creator_id: int
+    images: List[Image]
 
     class Config:
         orm_mode = True
