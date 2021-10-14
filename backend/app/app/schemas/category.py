@@ -7,11 +7,13 @@ from pydantic import BaseModel
 # Shared properties
 class CategoryBase(BaseModel):
     name: Optional[int] = None
+    title: Optional[str] = None
     parent_id: Optional[int] = None
 
 
 # Properties to receive on item creation
 class CategoryCreate(CategoryBase):
+    title: str
     name: str
 
 
@@ -24,6 +26,7 @@ class CategoryUpdate(CategoryBase):
 class CategoryInDBBase(CategoryBase):
     id: int
     name: str
+    title: str
     children: List['Category'] = []
 
     class Config:

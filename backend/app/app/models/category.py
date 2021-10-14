@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), index=True, nullable=False)
+    title = Column(String(255), nullable=False)
     parent_id = Column(Integer, ForeignKey('category.id'))
 
     children = relationship("Category", backref=backref('parent', remote_side=[id]))
