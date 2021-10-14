@@ -9,6 +9,7 @@ class ProductBase(BaseModel):
     description: Optional[str] = None
     price: Optional[int] = None
     quantity: Optional[int] = None
+    category_id: Optional[int] = None
 
 
 # Properties to receive on item creation
@@ -16,6 +17,7 @@ class ProductCreate(ProductBase):
     title: str
     price: int
     quantity: int
+    category_id: int
 
 
 # Properties to receive on item update
@@ -30,6 +32,7 @@ class ProductInDBBase(ProductBase):
     price: int
     quantity: int
     creator_id: int
+    category_id: Optional[int] = None
     images: List[Image]
 
     class Config:

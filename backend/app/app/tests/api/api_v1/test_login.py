@@ -25,4 +25,4 @@ def test_use_access_token(
     )
     result = r.json()
     assert r.status_code == 200
-    assert "email" in result
+    assert "username" in result

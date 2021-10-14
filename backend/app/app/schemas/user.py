@@ -1,19 +1,25 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, validator
 
 
 # Shared properties
 class UserBase(BaseModel):
-    email: Optional[EmailStr] = None
+    username: Optional[str] = None
     is_active: Optional[bool] = True
     is_superuser: bool = False
     full_name: Optional[str] = None
 
+    @validator('username')
+    def username_length(cls, value: str) -> str:
+        if len(value) > 64:
+            raise ValueError('must be less than 64 symbols.')
+        return value
+
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
-    email: EmailStr
+    username: str
     password: str
 
 
@@ -32,6 +38,7 @@ class UserInDBBase(UserBase):
 # Additional properties to return via API
 class User(UserInDBBase):
     pass
+
 
 
 # Additional properties stored in DB

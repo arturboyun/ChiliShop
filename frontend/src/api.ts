@@ -33,8 +33,8 @@ export const api = {
   async createUser(token: string, data: IUserProfileCreate) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },
-  async passwordRecovery(email: string) {
-    return axios.post(`${apiUrl}/api/v1/password-recovery/${email}`);
+  async passwordRecovery(username: string) {
+    return axios.post(`${apiUrl}/api/v1/password-recovery/${username}`);
   },
   async resetPassword(password: string, token: string) {
     return axios.post(`${apiUrl}/api/v1/reset-password/`, {

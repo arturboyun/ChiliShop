@@ -1,15 +1,19 @@
+include .env
+
+flake:
+	flake8 backend/app/app
+
 migrate:
-	docker-compose exec backend alembic upgrade head
+	docker-compose run --rm backend alembic upgrade head
 
 migration:
-	docker-compose exec backend alembic revision --autogenerate -m "$(message)"
-	docker-compose exec backend alembic upgrade head
+	docker-compose run --rm backend alembic revision --autogenerate -m "$(message)"
 
 run_tests:
-	docker-compose exec backend bash /app/tests-start.sh -x
+	docker-compose run --rm backend bash /app/tests-start.sh -x
 
 run_tests_coverage:
-	docker-compose exec backend bash /app/tests-start.sh --cov-report=html
+	docker-compose run --rm backend bash /app/tests-start.sh --cov-report=html
 
 dev:
 	docker-compose up -d
@@ -33,3 +37,9 @@ logs_proxy:
 
 logs_frontend:
 	docker-compose logs -f frontend
+
+psql:
+	docker-compose run --rm db psql -h db -U postgres
+
+psql_test:
+	docker-compose run --rm test_db psql -h test_db -U postgres

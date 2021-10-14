@@ -1,3 +1,4 @@
+import logging
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -8,6 +9,9 @@ from app.api import deps
 from starlette.requests import Request
 
 router = APIRouter()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @router.get("/", response_model=List[schemas.Product])
@@ -41,6 +45,7 @@ def create_product(
 @router.put("/{id}", response_model=schemas.Product)
 def update_product(
     *,
+    request: Request,
     db: Session = Depends(deps.get_db),
     id: int,
     product_in: schemas.ProductUpdate,
@@ -52,6 +57,14 @@ def update_product(
     product = crud.product.get(db=db, id=id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
+
+    logger.info(product_in.json())
+
+    if product_in.category_id is not None:
+        category = crud.category.get(db=db, id=product_in.category_id)
+        if not category:
+            raise HTTPException(status_code=404, detail="Category not found")
+
     product = crud.product.update(db=db, db_obj=product, obj_in=product_in)
     return product
 
@@ -65,7 +78,7 @@ def read_product(
     """
     Get product by ID.
     """
-    product = crud.product.get(db=db, id=id)
+    product = crud.product.get_with_images(db=db, id=id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product

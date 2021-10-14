@@ -15,7 +15,6 @@ from app.schemas.image import ImageCreate, ImageUpdate
 
 
 class CRUDImage(CRUDBase[Image, ImageCreate, ImageUpdate]):
-
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100, base_url: URL
     ) -> List[Image]:

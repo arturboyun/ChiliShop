@@ -25,22 +25,29 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
-    SMTP_TLS: bool = True
-    SMTP_PORT: Optional[int] = None
-    SMTP_HOST: Optional[str] = None
-    SMTP_USER: Optional[str] = None
-    SMTP_PASSWORD: Optional[str] = None
-    EMAILS_FROM_EMAIL: Optional[EmailStr] = None
-    EMAILS_FROM_NAME: Optional[str] = None
+    TEST_POSTGRES_SERVER: str
+    TEST_POSTGRES_USER: str
+    TEST_POSTGRES_PASSWORD: str
+    TEST_POSTGRES_DB: str
+    SQLALCHEMY_TEST_DATABASE_URI: Optional[PostgresDsn] = None
 
-    EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
-    EMAILS_ENABLED: bool = False
+    # SMTP_TLS: bool = True
+    # SMTP_PORT: Optional[int] = None
+    # SMTP_HOST: Optional[str] = None
+    # SMTP_USER: Optional[str] = None
+    # SMTP_PASSWORD: Optional[str] = None
+    # EMAILS_FROM_EMAIL: Optional[EmailStr] = None
+    # EMAILS_FROM_NAME: Optional[str] = None
 
-    EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr
+    # EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
+    # EMAIL_TEMPLATES_DIR: str = "/app/app/email-templates/build"
+    # EMAILS_ENABLED: bool = False
+
+    # EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
+    USERNAME_TEST_USER: str = 'test'
+    FIRST_SUPERUSER_USERNAME: str
     FIRST_SUPERUSER_PASSWORD: str
-    USERS_OPEN_REGISTRATION: bool = False
+    USERS_OPEN_REGISTRATION: bool = True
 
     CELERY_BROKER_URL: str
 
@@ -73,18 +80,16 @@ class Settings(BaseSettings):
             path=f"/{values.get('POSTGRES_DB') or ''}",
         )
 
-    @validator("EMAILS_FROM_NAME")
-    def get_project_name(cls, v: Optional[str], values: Dict[str, Any]) -> str:
-        if not v:
-            return values["PROJECT_NAME"]
-        return v
-
-    @validator("EMAILS_ENABLED", pre=True)
-    def get_emails_enabled(cls, v: bool, values: Dict[str, Any]) -> bool:
-        return bool(
-            values.get("SMTP_HOST")
-            and values.get("SMTP_PORT")
-            and values.get("EMAILS_FROM_EMAIL")
+    @validator("SQLALCHEMY_TEST_DATABASE_URI", pre=True)
+    def assemble_test_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
+        if isinstance(v, str):
+            return v
+        return PostgresDsn.build(
+            scheme="postgresql",
+            user=values.get("TEST_POSTGRES_USER"),
+            password=values.get("TEST_POSTGRES_PASSWORD"),
+            host=values.get("TEST_POSTGRES_SERVER"),
+            path=f"/{values.get('TEST_POSTGRES_DB') or ''}",
         )
 
     class Config:

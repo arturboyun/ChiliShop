@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
 
-    def get(self, db: Session, id: Any, base_url: URL) -> Optional[Product]:
+    def get_with_images(self, db: Session, id: Any, base_url: URL) -> Optional[Product]:
         product = db.query(self.model).outerjoin(Image).filter(self.model.id == id).first()
         for image in product.images:
                 image.src = str(base_url)[:-1] + image.src

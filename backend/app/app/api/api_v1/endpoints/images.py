@@ -1,9 +1,11 @@
 from typing import Any, List
-from app import crud, models, schemas
-from app.api import deps
-from fastapi import APIRouter, UploadFile, HTTPException, File, Depends
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm.session import Session
 from starlette.requests import Request
+
+from app import crud, models, schemas
+from app.api import deps
 
 router = APIRouter()
 

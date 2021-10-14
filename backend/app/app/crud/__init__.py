@@ -1,6 +1,7 @@
 from .crud_product import product
 from .crud_user import user
 from .crud_image import image
+from .crud_category import category
 
 # For a new basic set of CRUD operations you could just do
 
