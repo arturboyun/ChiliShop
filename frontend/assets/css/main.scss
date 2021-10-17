@@ -26,6 +26,15 @@ a {
   text-decoration: none;
 }
 
+a.nuxt-link-exact-active {
+  cursor: default;
+  font-weight: 500;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
 svg:hover, a:hover {
   color: #d94a4a;
   & > * {

@@ -4,11 +4,20 @@
 
     <nav>
       <ul class="nav-list">
-        <li class="nav-list__item"><NuxtLink to="/">Нижнее бельё</NuxtLink></li>
-        <li class="nav-list__item"><NuxtLink to="/">Пижамы</NuxtLink></li>
-        <li class="nav-list__item"><NuxtLink to="/">Халаты</NuxtLink></li>
-        <li class="nav-list__item"><NuxtLink to="/">Купальники</NuxtLink></li>
-        <li class="nav-list__item"><NuxtLink to="/">SALE</NuxtLink></li>
+        <li class="nav-list__item">
+          <NuxtLink to='/shop'>Магазин</NuxtLink>
+          <NuxtLink
+            v-for='category in categories'
+            :to="`/shop/category/${category.slug}`"
+            :key='category.id'
+          >
+            {{ category.name }}
+          </NuxtLink>
+        </li>
+<!--        <li class="nav-list__item"><NuxtLink to="/">Пижамы</NuxtLink></li>-->
+<!--        <li class="nav-list__item"><NuxtLink to="/">Халаты</NuxtLink></li>-->
+<!--        <li class="nav-list__item"><NuxtLink to="/">Купальники</NuxtLink></li>-->
+<!--        <li class="nav-list__item"><NuxtLink to="/">SALE</NuxtLink></li>-->
       </ul>
       <button class="basket_btn">
         <BasketIcon/>
@@ -21,7 +30,13 @@
 import BasketIcon from "~/assets/icons/basket.svg?inline";
 export default {
   name: "Header",
-  components: {BasketIcon}
+  components: {BasketIcon},
+  props: {
+    categories: {
+      type: Array,
+      required: true,
+    }
+  }
 }
 </script>
 
@@ -44,10 +59,10 @@ nav {
 
   .nav-list {
     display: flex;
-    margin-right: 104px;
+    margin-right: 70px;
 
     :not(:last-child) {
-      margin-right: 94px;
+      margin-right: 40px;
     }
   }
 }

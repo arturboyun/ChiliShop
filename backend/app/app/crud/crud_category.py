@@ -10,6 +10,9 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
     
     def get(self, db: Session, id: Any) -> Optional[Category]:
         return db.query(self.model).outerjoin(Product).filter(self.model.id == id).first()
+
+    def get_by_slug(self, db: Session, slug: str) -> Optional[Category]:
+        return db.query(self.model).outerjoin(Product).filter(self.model.slug == slug).first()
         
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100

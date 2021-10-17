@@ -1,41 +1,53 @@
 <template>
-  <div class="footer">
-    <div class="col">
-      <h3 class="col__title">Инфо</h3>
-      <NuxtLink to="/about">О нас</NuxtLink>
-      <NuxtLink to="/delivery">Оплата и доставка</NuxtLink>
-      <NuxtLink to="/sizes">Размерная сетка</NuxtLink>
+  <div class='footer'>
+    <div class='col'>
+      <h3 class='col__title'>Инфо</h3>
+      <NuxtLink to='/about'>О нас</NuxtLink>
+      <NuxtLink to='/delivery'>Оплата и доставка</NuxtLink>
+      <NuxtLink to='/sizes'>Размерная сетка</NuxtLink>
     </div>
-    <div class="col">
-      <h3 class="col__title">Главное Меню</h3>
-      <NuxtLink to="/about">Нижнее бельё</NuxtLink>
-      <NuxtLink to="/delivery">Пижамы</NuxtLink>
-      <NuxtLink to="/sizes">Халаты</NuxtLink>
-      <NuxtLink to="/sizes">Купальники</NuxtLink>
-      <NuxtLink to="/sizes">SALE</NuxtLink>
+    <div class='col'>
+      <h3 class='col__title'>Главное Меню</h3>
+      <NuxtLink
+        v-for='category in categories'
+        :to='`/shop/category/${category.slug}`'
+        :key='category.id'
+      >
+        {{ category.name }}
+      </NuxtLink>
     </div>
-    <div class="col">
-      <h3 class="col__title">Контакты</h3>
-      <a href="tel:+380965342867">+38 096 534 28 67</a>
-      <div class="social">
-        <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer"><TelegramIcon/></a>
-        <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer"><InstagramIcon/></a>
+    <div class='col'>
+      <h3 class='col__title'>Контакты</h3>
+      <a href='tel:+380965342867'>+38 096 534 28 67</a>
+      <div class='social'>
+        <a href='https://telegram.org/' rel='noopener noreferrer' target='_blank'>
+          <TelegramIcon />
+        </a>
+        <a href='https://instagram.com/' rel='noopener noreferrer' target='_blank'>
+          <InstagramIcon />
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import TelegramIcon from '~/assets/icons/telegram.svg?inline';
-import InstagramIcon from '~/assets/icons/instagram.svg?inline';
+import TelegramIcon from '~/assets/icons/telegram.svg?inline'
+import InstagramIcon from '~/assets/icons/instagram.svg?inline'
 
 export default {
-  name: "Footer",
-  components: {TelegramIcon, InstagramIcon}
+  name: 'Footer',
+  components: { TelegramIcon, InstagramIcon },
+  props: {
+    categories: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang='scss' scoped>
 .footer {
   display: flex;
   width: 100%;
@@ -63,6 +75,11 @@ export default {
 
   a {
     font-weight: 300;
+    cursor: pointer;
+
+    &:hover {
+      color: #d94a4a;
+    }
   }
 
   .social {

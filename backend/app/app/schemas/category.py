@@ -8,13 +8,15 @@ from pydantic import BaseModel
 class CategoryBase(BaseModel):
     name: Optional[int] = None
     title: Optional[str] = None
+    slug: Optional[str] = None
     parent_id: Optional[int] = None
 
 
 # Properties to receive on item creation
 class CategoryCreate(CategoryBase):
-    title: str
     name: str
+    title: str
+    slug: str
 
 
 # Properties to receive on item update
@@ -27,6 +29,7 @@ class CategoryInDBBase(CategoryBase):
     id: int
     name: str
     title: str
+    slug: str
     children: List['Category'] = []
 
     class Config:

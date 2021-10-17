@@ -1,9 +1,10 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  target: 'server',
   head: {
     title: 'chili',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },

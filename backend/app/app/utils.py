@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta
-from app.core.config import Settings
-from jose import jwt
-from typing import Any, Dict, Optional
+import random
+import string
+
 
 # import emails
 # from emails.template import JinjaTemplate
 
 # from app.core.config import settings
 
+def random_lower_string(k: int = 32) -> str:
+    return "".join(random.choices(string.ascii_lowercase, k=k))
 
 # def send_email(
 #     email_to: str,
