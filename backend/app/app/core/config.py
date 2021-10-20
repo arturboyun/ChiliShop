@@ -54,6 +54,8 @@ class Settings(BaseSettings):
     MEDIA_PATH: Path = Path('/media')
     IMAGES_PATH: Path = MEDIA_PATH / 'images'
 
+    PRODUCTS_PER_PAGE = 10
+
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
         if isinstance(v, str) and not v.startswith("["):

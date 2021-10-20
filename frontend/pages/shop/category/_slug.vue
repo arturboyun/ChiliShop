@@ -1,10 +1,10 @@
 <template>
   <div class='shop'>
-    <categories-bar :categories='headerCategories' />
+    <categories-bar :categories='this.headerCategories' />
     <products
       v-if='this.category.products.length > 0'
       :category_title='this.category.title'
-      :products='this.category.products'
+      :products='this.products'
     />
     <div class='not-found' v-else>Товаров не найдено.</div>
   </div>
@@ -21,8 +21,8 @@ export default {
   async asyncData({ params, store }) {
     const slug = params.slug
     const category = await store.dispatch('categories/getCategoryBySlug', { slug })
-    console.log(category)
-    return { slug, category }
+    const products = await store.dispatch('products/getProductsByCategorySlug', { slug })
+    return { slug, category, products }
   },
   computed: {
     ...mapGetters('categories', ['headerCategories'])

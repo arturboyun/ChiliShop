@@ -8,13 +8,15 @@
     </div>
     <div class='col'>
       <h3 class='col__title'>Главное Меню</h3>
-      <NuxtLink
-        v-for='category in categories'
-        :to='`/shop/category/${category.slug}`'
-        :key='category.id'
-      >
-        {{ category.name }}
-      </NuxtLink>
+      <client-only>
+        <NuxtLink
+          v-for='category in categories'
+          :to='`/shop/category/${category.slug}`'
+          :key='category.id'
+        >
+          {{ category.name }}
+        </NuxtLink>
+      </client-only>
     </div>
     <div class='col'>
       <h3 class='col__title'>Контакты</h3>

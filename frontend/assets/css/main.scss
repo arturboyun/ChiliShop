@@ -47,3 +47,124 @@ button {
   border: none;
   cursor: pointer;
 }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  padding: 15px 25px;
+  background-color: #000;
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 25px 13px rgba(255, 0, 0, 0.14);
+}
+
+.btn.large {
+  width: 344px;
+  height: 61px;
+}
+
+.info_container {
+  display: flex;
+  padding: 34px 270px 34px 270px;
+  background-color: #080808;
+}
+
+input, .input {
+  background-color: rgba(#000, 0);
+  border: 2px solid #FFFFFF;
+  border-radius: 0;
+  height: 40px;
+  padding: 0 15px;
+  color: #fff;
+  margin: 0;
+  width: 100%;
+
+  &:focus {
+    border: 2px solid #d39292;
+  }
+
+  &__errors {
+    font-weight: 300;
+    color: #d04e4e;
+    font-size: 12px;
+    line-height: 10px;
+    margin-bottom: 5px;
+  }
+
+  &.error {
+    border: 2px solid #d04e4e;
+    color: #d04e4e;
+  }
+
+  &:not(.error) {
+    margin-bottom: 20px;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+.select {
+  width: 100%;
+  height: 40px;
+  background-color: rgba(#000, 0);
+  border: 2px solid #FFFFFF;
+  color: #fff;
+  outline:none;
+
+  &::after {
+    border-color: #fff !important;
+    right: 1.125em;
+    z-index: 4;
+  }
+
+  &:hover::after {
+    border-color: #c78d8d !important;
+    right: 1.125em;
+    z-index: 4;
+  }
+
+  &:not(.error) {
+    margin-bottom: 20px;
+  }
+}
+
+.select select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: rgba(#000, 0);
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0 15px;
+  height: 40px;
+  font-size: 15px;
+}
+
+.control.error {
+  .select {
+    border: 2px solid #d04e4e;
+    color: #d04e4e;
+    margin-bottom: 0;
+  }
+}
+
+textarea.input {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  margin: 0;
+}
+

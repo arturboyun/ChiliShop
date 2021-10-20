@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from starlette.datastructures import URL
 
 from app.crud.base import CRUDBase
+from app.models import Category
 from app.models.image import Image
 from app.models.product import Product
 from app.schemas.product import ProductCreate, ProductUpdate
@@ -17,20 +18,49 @@ logger = logging.getLogger(__name__)
 class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
 
     def get_with_images(self, db: Session, id: Any, base_url: URL) -> Optional[Product]:
-        product = db.query(self.model).outerjoin(Image).filter(self.model.id == id).first()
-        for image in product.images:
-            image.src = str(base_url)[:-1] + image.src
-        return product
+        db_obj = db.query(self.model).outerjoin(Image).filter(self.model.id == id).first()
+        if db_obj:
+            for image in db_obj.images:
+                image.src = str(base_url)[:-1] + image.src
+        return db_obj
+
+    def get_by_slug_with_images(self, db: Session, slug: str, base_url: URL) -> Optional[Product]:
+        db_obj = db.query(self.model).outerjoin(Image).filter(self.model.slug == slug).first()
+        if db_obj:
+            for image in db_obj.images:
+                image.src = str(base_url)[:-1] + image.src
+        return db_obj
 
     def get_multi(
             self, db: Session, *, skip: int = 0, limit: int = 100, base_url: URL
     ) -> List[Product]:
-        products = db.query(self.model).outerjoin(Image).offset(skip).limit(limit).all()
-        logger.info(products)
-        for product in products:
-            for image in product.images:
+        db_objs = db.query(self.model).outerjoin(Image).offset(skip).limit(limit).all()
+        for db_obj in db_objs:
+            for image in db_obj.images:
                 image.src = str(base_url)[:-1] + image.src
-        return products
+        return db_objs
+
+    def get_multi_by_category_id(
+            self, db: Session, *, category_id: int, skip: int = 0, limit: int = 100, base_url: URL
+    ) -> List[Product]:
+        db_objs = db.query(self.model).outerjoin(Image).join(Category)\
+            .filter(Category.id == category_id)\
+            .offset(skip).limit(limit).all()
+        for db_obj in db_objs:
+            for image in db_obj.images:
+                image.src = str(base_url)[:-1] + image.src
+        return db_objs
+
+    def get_multi_by_category_slug(
+            self, db: Session, *, category_slug: int, skip: int = 0, limit: int = 100, base_url: URL
+    ) -> List[Product]:
+        db_objs = db.query(self.model).outerjoin(Image).join(Category)\
+            .filter(Category.slug == category_slug)\
+            .offset(skip).limit(limit).all()
+        for db_obj in db_objs:
+            for image in db_obj.images:
+                image.src = str(base_url)[:-1] + image.src
+        return db_objs
 
     def create_with_owner(
             self, db: Session, *, obj_in: ProductCreate, creator_id: int

@@ -28,6 +28,40 @@ def read_products(
     return products
 
 
+@router.get("/category/{category_id}", response_model=List[schemas.Product])
+def read_products_by_category_id(
+    request: Request,
+    category_id: int,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+) -> Any:
+    """
+    Retrieve products by category id.
+    """
+    products = crud.product.get_multi_by_category_id(
+        db, category_id=category_id, skip=skip, limit=limit, base_url=request.base_url
+    )
+    return products
+
+
+@router.get("/category/slug/{category_slug}", response_model=List[schemas.Product])
+def read_products_by_category_slug(
+    request: Request,
+    category_slug: str,
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+) -> Any:
+    """
+    Retrieve products by category slug.
+    """
+    products = crud.product.get_multi_by_category_slug(
+        db, category_slug=category_slug, skip=skip, limit=limit, base_url=request.base_url
+    )
+    return products
+
+
 @router.post("/", response_model=schemas.Product)
 def create_product(
     *,
@@ -72,13 +106,30 @@ def update_product(
 @router.get("/{id}", response_model=schemas.Product)
 def read_product(
     *,
+    request: Request,
     db: Session = Depends(deps.get_db),
     id: int,
 ) -> Any:
     """
     Get product by ID.
     """
-    product = crud.product.get_with_images(db=db, id=id)
+    product = crud.product.get_with_images(db=db, id=id, base_url=request.base_url)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+@router.get("/slug/{slug}", response_model=schemas.Product)
+def read_product_by_slug(
+    *,
+    request: Request,
+    db: Session = Depends(deps.get_db),
+    slug: str,
+) -> Any:
+    """
+    Get product by SLUG.
+    """
+    product = crud.product.get_by_slug_with_images(db=db, slug=slug, base_url=request.base_url)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product

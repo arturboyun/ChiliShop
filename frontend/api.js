@@ -32,7 +32,7 @@ export const api = {
   async createUser(token, data) {
     return axios.post(`${apiUrl}/api/v1/users/`, data, authHeaders(token));
   },
-  async getCategories(skip = 0, limit = 0) {
+  async getCategories(skip = 0, limit = 100) {
     return await axios.get(`${apiUrl}/api/v1/categories/?skip=${skip}&limit=${limit}`);
   },
   async getCategory(id) {
@@ -47,8 +47,15 @@ export const api = {
   async deleteCategory(token, id) {
     return await axios.delete(`${apiUrl}/api/v1/categories/${id}`, authHeaders(token));
   },
-  // Products
-  async getCategoryProducts(skip = 0, limit = 0) {
 
-  }
+  // Products
+  async getProductBySlug(slug) {
+    return await axios.get(`${apiUrl}/api/v1/products/slug/${slug}`);
+  },
+  async getProductsByCategoryID(id, skip = 0, limit = 100) {
+    return await axios.get(`${apiUrl}/api/v1/products/category/${id}?skip=${skip}&limit=${limit}`);
+  },
+  async getProductsByCategorySlug(slug, skip = 0, limit = 100) {
+    return await axios.get(`${apiUrl}/api/v1/products/category/slug/${slug}?skip=${skip}&limit=${limit}`);
+  },
 }

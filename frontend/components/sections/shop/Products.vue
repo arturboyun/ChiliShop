@@ -9,6 +9,7 @@
         :price='product.price'
         :image_url='product.images[0].src'
         :title='product.title'
+        :slug='product.slug'
       />
     </div>
   </div>

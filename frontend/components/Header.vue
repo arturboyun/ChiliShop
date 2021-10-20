@@ -5,21 +5,18 @@
     <nav>
       <ul class="nav-list">
         <li class="nav-list__item">
-          <NuxtLink to='/shop'>Магазин</NuxtLink>
-          <NuxtLink
-            v-for='category in categories'
-            :to="`/shop/category/${category.slug}`"
-            :key='category.id'
-          >
-            {{ category.name }}
-          </NuxtLink>
+          <client-only>
+            <NuxtLink
+              v-for='category in categories'
+              :to="`/shop/category/${category.slug}`"
+              :key='category.id'
+            >
+              {{ category.name }}
+            </NuxtLink>
+          </client-only>
         </li>
-<!--        <li class="nav-list__item"><NuxtLink to="/">Пижамы</NuxtLink></li>-->
-<!--        <li class="nav-list__item"><NuxtLink to="/">Халаты</NuxtLink></li>-->
-<!--        <li class="nav-list__item"><NuxtLink to="/">Купальники</NuxtLink></li>-->
-<!--        <li class="nav-list__item"><NuxtLink to="/">SALE</NuxtLink></li>-->
       </ul>
-      <button class="basket_btn">
+      <button class="basket_btn" @click='openBasket'>
         <BasketIcon/>
       </button>
     </nav>
@@ -27,15 +24,30 @@
 </template>
 
 <script>
-import BasketIcon from "~/assets/icons/basket.svg?inline";
+import BasketIcon from '~/assets/icons/basket.svg?inline'
+
 export default {
   name: "Header",
   components: {BasketIcon},
+  data() {
+    return {
+      basketItemsCount: 0
+    }
+  },
   props: {
     categories: {
       type: Array,
       required: true,
+    },
+  },
+  computed: {
+  },
+  methods: {
+    openBasket() {
+      this.$emit('open-basket')
     }
+  },
+  watch: {
   }
 }
 </script>
@@ -64,6 +76,25 @@ nav {
     :not(:last-child) {
       margin-right: 40px;
     }
+  }
+}
+
+.basket_btn {
+  position: relative;
+  .basket_items_count {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -2px;
+    right: -5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 10px;
+    line-height: 5px;
+    font-weight: 600;
   }
 }
 </style>
