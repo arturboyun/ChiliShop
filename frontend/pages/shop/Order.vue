@@ -21,6 +21,9 @@ import OrderPersonalForm from '@/components/sections/order/OrderPersonalForm'
 import OrderInfo from '@/components/sections/order/OrderInfo'
 import OrderDeliveryForm from '~/components/sections/order/OrderDeliveryForm'
 import OrderCompleted from '~/components/sections/order/OrderCompleted'
+import { api } from '@/api'
+import { mapState } from 'vuex'
+
 
 export default {
   name: 'Order',
@@ -31,13 +34,32 @@ export default {
       delivery_form_completed: false,
     }
   },
+  computed: {
+    ...mapState('basket', ['items']),
+    itemsSumPrice() {
+      let sum = 0
+      this.items.forEach((item) => {
+        sum += item.product.price * item.quantity
+      })
+      return sum
+    }
+  },
   methods: {
     personalFormComplete() {
       this.personal_form_completed = true;
     },
-    deliveryFormComplete(data) {
+    async deliveryFormComplete(data) {
       if (data.payment_method === "card") {
-        // TODO: redirect to LiqPay
+        const productNames = []
+        const productPrices = []
+        const productCounts = []
+        this.items.forEach(item => {
+          productNames.push(item.product.title)
+          productPrices.push(item.product.price)
+          productCounts.push(item.quantity)
+        })
+        console.log(productNames)
+        console.log(await api.createInvoice(this.itemsSumPrice, productNames, productPrices, productCounts))
       }
       this.delivery_form_completed = true;
     }

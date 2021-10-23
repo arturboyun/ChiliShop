@@ -24,6 +24,9 @@ export default {
     const products = await store.dispatch('products/getProductsByCategorySlug', { slug })
     return { slug, category, products }
   },
+  mounted() {
+    this.$nuxt.$emit('close-menu')
+  },
   computed: {
     ...mapGetters('categories', ['headerCategories'])
   },
@@ -33,11 +36,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .shop {
+  width: 100%;
   min-height: 70vh;
   padding: 50px 270px;
   display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
   background-color: #080808;
+
+  @media screen and (max-width: 1200px) {
+    padding: 50px 15px;
+  }
 }
 </style>

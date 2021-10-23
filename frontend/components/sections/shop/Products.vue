@@ -36,9 +36,15 @@ export default {
 
 <style lang='scss' scoped>
 .products {
-  width: 80%;
+  display: flex;
+  flex-direction: column;
   padding: 21px 38px;
   background-color: #1c1c1c;
+  width: 100%;
+
+  @media screen and (max-width: 720px) {
+    padding: 21px 16px;
+  }
 
   .title {
     font-size: 18px;
@@ -49,9 +55,27 @@ export default {
   }
 
   .products_grid {
+    width: 100%;
     display: grid;
     grid-gap: 48px 28px;
     grid-template-columns: 207px 207px 207px 207px;
+
+    @media screen and (max-width: 1768px) {
+      grid-template-columns: 207px 207px 207px;
+    }
+
+    @media screen and (max-width: 1620px) {
+      grid-template-columns: 207px 207px;
+    }
+
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: 207px 207px 207px 207px;
+    }
+
+    @media screen and (max-width: 720px) {
+      grid-template-columns: 153px 153px;
+      grid-gap: 22px 22px;
+    }
   }
 }
 </style>

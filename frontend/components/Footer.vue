@@ -52,24 +52,39 @@ export default {
 <style lang='scss' scoped>
 .footer {
   display: flex;
+  justify-content: space-between;
   width: 100%;
   padding: 0 270px;
   margin-top: 45px;
   margin-bottom: 35px;
   background-color: #1c1c1c;
+
+  @media screen and (max-width: 1200px) {
+    padding: 0 15px;
+  }
+
+  @media screen and (max-width: 720px) {
+    flex-direction: column;
+
+    .col {
+      margin-bottom: 50px;
+    }
+  }
 }
 
 .col {
   display: flex;
   flex-direction: column;
-
-  &:not(:last-child) {
-    margin-right: 232px;
-  }
-
-  &:nth-child(2) {
-    margin-right: 330px;
-  }
+  width: 232px;
+  margin-right: 25px;
+  //
+  //&:not(:last-child) {
+  //  margin-right: 232px;
+  //}
+  //
+  //&:nth-child(2) {
+  //  margin-right: 330px;
+  //}
 
   & > *:not(:last-child) {
     margin-bottom: 30px;
@@ -90,4 +105,6 @@ export default {
     }
   }
 }
+
+
 </style>

@@ -46,6 +46,18 @@ export default {
 .hero {
   width: 100%;
   height: 850px;
+
+  @media screen and (max-width: 1200px) {
+    height: 600px;
+  }
+
+  @media screen and (max-width: 900px) {
+    height: 400px;
+  }
+
+  @media screen and (max-width: 600px) {
+    height: 200px;
+  }
 }
 
 .swiper {
@@ -55,6 +67,18 @@ export default {
   .slide__image {
     width: 100%;
     height: 850px;
+
+    @media screen and (max-width: 1200px) {
+      height: 600px;
+    }
+
+    @media screen and (max-width: 900px) {
+      height: 400px;
+    }
+
+    @media screen and (max-width: 600px) {
+      height: 200px;
+    }
   }
 
   .swiper-pagination-bullet {

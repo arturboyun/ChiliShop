@@ -10,7 +10,11 @@ import OurClients from '@/components/sections/main/OurClients'
 import Hero from '@/components/sections/main/Hero'
 
 export default {
-  components: { Hero, OurClients }
+  components: { Hero, OurClients },
+  mounted() {
+    this.$nuxt.$emit('close-menu')
+    this.$nuxt.$emit('close-basket')
+  }
 }
 </script>
 

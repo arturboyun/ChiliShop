@@ -1,25 +1,28 @@
 <template>
-  <div class="header">
-    <NuxtLink to="/"><img src="@/assets/images/logo.png" alt="chili logo" class="logo"></NuxtLink>
+  <div class='header'>
+    <burger-button class='burger'/>
+    <NuxtLink to='/'><img alt='chili logo' class='logo' src='@/assets/images/logo.png'></NuxtLink>
 
-    <nav>
-      <ul class="nav-list">
-        <li class="nav-list__item">
-          <client-only>
-            <NuxtLink
-              v-for='category in categories'
-              :to="`/shop/category/${category.slug}`"
-              :key='category.id'
-            >
-              {{ category.name }}
-            </NuxtLink>
-          </client-only>
-        </li>
-      </ul>
-      <button class="basket_btn" @click='openBasket'>
-        <BasketIcon/>
+    <div class='menu'>
+      <nav class='menu__nav'>
+        <ul class='nav-list'>
+          <li class='nav-list__item'>
+            <client-only>
+              <NuxtLink
+                v-for='category in categories'
+                :key='category.id'
+                :to='`/shop/category/${category.slug}`'
+              >
+                {{ category.name }}
+              </NuxtLink>
+            </client-only>
+          </li>
+        </ul>
+      </nav>
+      <button class='basket_btn' @click='openBasket'>
+        <BasketIcon />
       </button>
-    </nav>
+    </div>
   </div>
 </template>
 
@@ -27,8 +30,8 @@
 import BasketIcon from '~/assets/icons/basket.svg?inline'
 
 export default {
-  name: "Header",
-  components: {BasketIcon},
+  name: 'Header',
+  components: { BasketIcon },
   data() {
     return {
       basketItemsCount: 0
@@ -37,22 +40,20 @@ export default {
   props: {
     categories: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     openBasket() {
       this.$emit('open-basket')
     }
   },
-  watch: {
-  }
+  watch: {}
 }
 </script>
 
-<style scoped lang="scss">
+<style lang='scss' scoped>
 .header {
   position: fixed;
   width: 100%;
@@ -63,24 +64,51 @@ export default {
   align-items: center;
   justify-content: space-between;
   z-index: 1000;
+
+  @media screen and (max-width: 1200px) {
+    padding: 0 16px;
+
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @media screen and (max-width: 1750px) {
+    padding: 0 120px;
+  }
+
+  @media screen and (max-width: 1375px) {
+    padding: 0 45px;
+  }
 }
 
-nav {
+.menu {
   display: flex;
-  align-items: center;
-
-  .nav-list {
+  &__nav {
     display: flex;
-    margin-right: 70px;
+    align-items: center;
 
-    :not(:last-child) {
-      margin-right: 40px;
+    .nav-list {
+      display: flex;
+      margin-right: 70px;
+
+      :not(:last-child) {
+        margin-right: 40px;
+      }
+    }
+
+    @media screen and (max-width: 1200px) {
+      display: none;
     }
   }
 }
 
 .basket_btn {
   position: relative;
+
   .basket_items_count {
     position: absolute;
     display: flex;

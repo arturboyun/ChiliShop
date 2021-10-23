@@ -1,13 +1,13 @@
 <template>
   <div class='product_card'>
-    <NuxtLink class='product_image_link' :to='`/shop/product/${slug}`'>
-      <div class='product_image' :style='`background-image: url("${image_url}");`'>
+    <NuxtLink :to='`/shop/product/${slug}`' class='product_image_link'>
+      <div :style='`background-image: url("${image_url}");`' class='product_image'>
         <div class='cover'><span>Посмотреть</span></div>
       </div>
     </NuxtLink>
 
     <div class='product_info'>
-      <NuxtLink class='product_name' :to='`/shop/product/${slug}`'>
+      <NuxtLink :to='`/shop/product/${slug}`' class='product_name'>
         {{ title }}
       </NuxtLink>
       <p class='product_price'>{{ price }}<span> ₴</span></p>
@@ -19,17 +19,19 @@
 export default {
   name: 'ProductCard',
   props: {
-    image_url: {type: String, required: true},
-    title: {type: String, required: true},
-    slug: {type: String, required: true},
-    price: {type: Number, required: true},
+    image_url: { type: String, required: true },
+    title: { type: String, required: true },
+    slug: { type: String, required: true },
+    price: { type: Number, required: true }
   }
 }
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss' scoped>
 .product_card {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 }
 
@@ -42,6 +44,11 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  @media screen and (max-width: 720px) {
+    width: 153px;
+    height: 209px;
+  }
 
   img {
     height: 284px;
@@ -79,6 +86,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 207px;
+
+  @media screen and (max-width: 720px) {
+    width: 153px;
+  }
 }
 
 .product_name {
@@ -86,6 +98,7 @@ export default {
   font-weight: 500;
   font-size: 14px;
   align-self: flex-start;
+
 }
 
 .product_price {

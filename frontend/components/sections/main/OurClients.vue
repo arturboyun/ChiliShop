@@ -26,6 +26,17 @@ export default {
   flex-direction: column;
   padding: 60px 270px 0;
   background-color: #000000;
+
+  @media screen and (max-width: 1200px) {
+    padding: 0 15px;
+    .title {
+      font-size: 14px;
+    }
+    .logo {
+      width: 84px;
+      height: 56px;
+    }
+  }
 }
 
 .title {
@@ -35,6 +46,7 @@ export default {
   margin: 0;
   color: #fff;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .logo {
@@ -44,8 +56,13 @@ export default {
 .gallery {
   display: grid;
   grid-gap: 94px 91px;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 271px 271px 271px;
   margin-bottom: 74px;
+
+  @media screen and (max-width: 1200px) {
+    grid-gap: 34px 34px;
+    grid-template-columns: auto auto;
+  }
 
   &__image {
 

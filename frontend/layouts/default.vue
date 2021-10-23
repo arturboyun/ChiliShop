@@ -1,11 +1,12 @@
 <template>
   <div class='layout'>
-    <basket-modal :show='basketIsOpen' @update:show='hideBasket'/>
+    <basket-modal :show='basketIsOpen' @update:show='hideBasket' />
+    <modal-menu :categories='this.headerCategories' :show='menuIsOpen' @update:show='hideMenu' />
 
-    <Header :categories='this.headerCategories' @open-basket='showBasket'/>
+    <Header :categories='this.headerCategories' @open-basket='showBasket' />
 
     <div class='main-container'>
-      <Nuxt/>
+      <Nuxt />
     </div>
 
     <Footer :categories='this.headerCategories' />
@@ -15,7 +16,7 @@
 <script>
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import BasketModal from '@/components/sections/shop/BasketModal'
 
 export default {
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       basketIsOpen: false,
+      menuIsOpen: false
     }
   },
   async fetch() {
@@ -35,18 +37,30 @@ export default {
     this.$nuxt.$on('close-basket', () => {
       this.hideBasket()
     })
+    this.$nuxt.$on('open-menu', () => {
+      this.showMenu()
+    })
+    this.$nuxt.$on('close-menu', () => {
+      this.hideMenu()
+    })
   },
   computed: {
-    ...mapGetters('categories', ['headerCategories']),
+    ...mapGetters('categories', ['headerCategories'])
   },
   methods: {
     showBasket() {
-      this.basketIsOpen = true;
+      this.basketIsOpen = true
     },
     hideBasket() {
-      this.basketIsOpen = false;
+      this.basketIsOpen = false
     },
-  },
+    showMenu() {
+      this.menuIsOpen = true
+    },
+    hideMenu() {
+      this.menuIsOpen = false
+    }
+  }
 }
 </script>
 
@@ -55,9 +69,11 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .main-container {
   padding-top: 100px;
+  position: relative;
 }
 </style>

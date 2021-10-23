@@ -1,11 +1,14 @@
 <template>
   <div v-if='show' class='modal' @click.stop='hideModal'>
     <div class='modal__content' @click.stop>
-      <div v-if='items.length > 0' class='basket'>
+      <div class='close_btn' @click.stop='hideModal'>
+        <CloseIcon />
+      </div>
+      <div v-if='this.items.length > 0' class='basket'>
         <h2 class='title'>Корзина</h2>
         <div class='items'>
           <div
-            v-for='item in items'
+            v-for='item in this.items'
             :key='item.product.id'
             class='basket__item'
           >
@@ -37,7 +40,7 @@
         </div>
         <div class='buttons'>
           <button class='btn continue_button' @click.stop='hideModal'>Продолжить покупки</button>
-          <NuxtLink to='/shop/order' class='btn checkout_button'>Оформить заказ</NuxtLink>
+          <NuxtLink class='btn checkout_button' to='/shop/order'>Оформить заказ</NuxtLink>
         </div>
       </div>
       <div v-else class='basket'>
@@ -50,11 +53,13 @@
 
 <script>
 import toggleMixin from '@/mixins/toggleMixin'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import CloseIcon from '@/assets/icons/close.svg?inline'
 
 export default {
   name: 'BasketModal',
   mixins: [toggleMixin],
+  components: { CloseIcon },
   mounted() {
     this.refreshStateItems()
   },
@@ -97,10 +102,24 @@ export default {
   z-index: 1002;
 
   .modal__content {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    @media screen and (max-width: 720px) {
+      min-width: 100%;
+      min-height: 100vh;
+      //padding: 16px 21px;
+      //justify-content: flex-start;
+    }
+
+    .close_btn {
+      position: absolute;
+      right: 13px;
+      top: 15px;
+    }
   }
 }
 
@@ -113,6 +132,13 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 720px) {
+    width: 100%;
+    height: 100vh;
+    padding: 16px 21px;
+    justify-content: flex-start;
+  }
 
   .title {
     font-weight: 600;
@@ -131,6 +157,7 @@ export default {
 }
 
 .basket__item {
+  position: relative;
   width: 100%;
   display: flex;
   margin-bottom: 27px;
@@ -142,6 +169,12 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     margin-right: 31px;
+
+    @media screen and (max-width: 720px) {
+      min-width: 87px;
+      min-height: 119px;
+      margin-right: 18px;
+    }
   }
 
   .product_info {
@@ -150,11 +183,20 @@ export default {
     justify-content: space-between;
     margin-right: 58px;
 
+    @media screen and (max-width: 720px) {
+      margin-right: 9px;
+    }
+
     .title {
       font-weight: 500;
       font-size: 20px;
       line-height: 24px;
       margin-bottom: 10px;
+      text-align: left;
+
+      @media screen and (max-width: 720px) {
+        font-size: 14px;
+      }
     }
 
     .size {
@@ -162,6 +204,11 @@ export default {
       font-size: 16px;
       line-height: 20px;
       margin-bottom: 45px;
+
+      @media screen and (max-width: 720px) {
+        font-size: 14px;
+        margin-bottom: 11px;
+      }
 
       span {
         font-weight: 500;
@@ -207,6 +254,16 @@ export default {
     font-size: 24px;
     line-height: 29px;
     color: #fff;
+    white-space: nowrap;
+
+    @media screen and (max-width: 720px) {
+      position: absolute;
+      top: 70px;
+      right: 15px;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 17px;
+    }
   }
 }
 
@@ -263,6 +320,19 @@ export default {
     &:hover {
       color: #fff;
       background-color: rgba(#fff, 0);
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    flex-direction: column;
+
+    .continue_button,
+    .checkout_button {
+      width: 100%;
+    }
+
+    .continue_button {
+      margin-bottom: 18px;
     }
   }
 }

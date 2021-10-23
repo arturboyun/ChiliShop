@@ -28,7 +28,7 @@
             {{ size }}
           </button>
         </div>
-        <div class='sizes_text'>Размерная сетка</div>
+        <nuxt-link to='/sizes' class='sizes_text'>Размерная сетка</nuxt-link>
       </div>
 
       <button class='btn large' @click='addToBasket'>
@@ -86,6 +86,21 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
+  @media screen and (max-width: 1200px) {
+    padding: 98px 15px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 1750px) {
+    padding: 98px 120px;
+  }
+
+  @media screen and (max-width: 1375px) {
+    padding: 98px 45px;
+  }
 }
 
 .not-found {
@@ -99,12 +114,23 @@ export default {
   justify-content: center;
   margin-right: 64px;
 
+  @media screen and (max-width: 1200px) {
+    margin-right: 0;
+    margin-bottom: 54px;
+    width: 100%;
+  }
+
   .main_image {
     width: 393px;
     height: 536px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      height: 324px;
+    }
   }
 
   .other_images {
@@ -123,6 +149,19 @@ export default {
         margin-bottom: 4px;
       }
     }
+
+    @media screen and (max-width: 1200px) {
+      margin-right: 16px;
+
+      .image {
+        width: 75px;
+        height: 102px;
+
+        &:not(:last-child) {
+          margin-bottom: 9px;
+        }
+      }
+    }
   }
 }
 
@@ -130,17 +169,33 @@ export default {
   display: flex;
   flex-direction: column;
 
+  @media screen and (max-width: 1200px) {
+    .btn {
+      margin: 0 auto;
+    }
+  }
+
   .title {
     color: #fff;
     font-weight: 500;
     font-size: 30px;
     margin-bottom: 34px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
   }
 
   .price {
     align-self: flex-end;
     font-size: 30px;
     font-weight: 500;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 20px;
+      margin-bottom: 0;
+    }
   }
 
   .sizes_title {

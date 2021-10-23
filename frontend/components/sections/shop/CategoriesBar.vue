@@ -2,33 +2,31 @@
   <div class='categories'>
     <h2 class='title'>Категории</h2>
     <ul>
-      <li v-for='category in categories'>
-        <nuxt-link :to='`/shop/category/${category.slug}`' :key='category.id' class='name'>{{ category.name }}</nuxt-link>
-        <!--        <ul class='sub_categories'>-->
-        <!--          <li>-->
-        <!--            <div class='name'>Category</div>-->
-        <!--            <ul class='sub_categories'></ul>-->
-        <!--          </li>-->
-        <!--        </ul>-->
-      </li>
+      <category-recursive  v-for='category in categories' :key='category.id' :category='category'/>
     </ul>
   </div>
 </template>
 
 <script>
+import CategoryRecursive from '@/components/sections/shop/CategoryRecursive'
 export default {
   name: 'CategoriesBar',
+  components: { CategoryRecursive },
   props: {
     categories: { type: Array, required: true }
-  }
+  },
 }
 </script>
 
 <style lang='scss' scoped>
 
 .categories {
-  width: 20%;
   margin-bottom: 15px;
+  margin-right: 98px;
+
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
 
   .title {
     font-size: 18px;
@@ -36,10 +34,7 @@ export default {
     line-height: 18px;
     color: #ffffff;
     margin-bottom: 31px;
-  }
-
-  .sub_categories > li {
-    margin-left: 25px;
+    white-space: nowrap;
   }
 }
 

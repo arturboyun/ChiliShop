@@ -19,7 +19,6 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'vue-select/dist/vue-select.css',
     '@/assets/css/main.scss',
   ],
 
