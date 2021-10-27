@@ -38,5 +38,17 @@ export default {
   .text {
     width: 532px;
   }
+
+  @media screen and (max-width: 1200px) {
+    .text {
+      width: 100%;
+      padding: 0 15px;
+    }
+
+    .title,
+    .text {
+      font-size: 18px;
+    }
+  }
 }
 </style>

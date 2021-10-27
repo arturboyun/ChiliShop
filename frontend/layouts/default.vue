@@ -75,5 +75,8 @@ export default {
 .main-container {
   padding-top: 100px;
   position: relative;
+  @media screen and (max-width: 1200px) {
+    padding-top: 70px;
+  }
 }
 </style>

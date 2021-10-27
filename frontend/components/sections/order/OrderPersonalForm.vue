@@ -145,6 +145,14 @@ export default {
         cursor: default;
       }
     }
+
+    @media screen and (max-width: 1200px) {
+      flex-direction: column;
+
+      .btn {
+        margin-bottom: 25px;
+      }
+    }
   }
 }
 </style>

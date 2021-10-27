@@ -1,6 +1,6 @@
 <template>
   <div class='order'>
-    <h1 class='order__title'  v-if='!personal_form_completed || !delivery_form_completed'>Оформление заказа</h1>
+    <h1 v-if='!personal_form_completed || !delivery_form_completed' class='order__title'>Оформление заказа</h1>
     <div class='order__blocks'>
       <order-personal-form
         v-if='!personal_form_completed'
@@ -10,8 +10,8 @@
         v-if='personal_form_completed && !delivery_form_completed'
         @form-completed='deliveryFormComplete'
       />
-      <order-info v-if='!personal_form_completed || !delivery_form_completed'/>
-      <order-completed   v-if='personal_form_completed && delivery_form_completed'/>
+      <order-info v-if='!personal_form_completed || !delivery_form_completed' />
+      <order-completed v-if='personal_form_completed && delivery_form_completed' />
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       personal_form_completed: false,
-      delivery_form_completed: false,
+      delivery_form_completed: false
     }
   },
   computed: {
@@ -46,10 +46,10 @@ export default {
   },
   methods: {
     personalFormComplete() {
-      this.personal_form_completed = true;
+      this.personal_form_completed = true
     },
     async deliveryFormComplete(data) {
-      if (data.payment_method === "card") {
+      if (data.payment_method === 'card') {
         const productNames = []
         const productPrices = []
         const productCounts = []
@@ -61,7 +61,7 @@ export default {
         console.log(productNames)
         console.log(await api.createInvoice(this.itemsSumPrice, productNames, productPrices, productCounts))
       }
-      this.delivery_form_completed = true;
+      this.delivery_form_completed = true
     }
   }
 }
@@ -77,6 +77,7 @@ export default {
     text-align: center;
     font-size: 24px;
     margin-bottom: 46px;
+    text-transform: uppercase;
   }
 
   .order__blocks {
@@ -84,6 +85,18 @@ export default {
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+  }
+
+  @media screen and (max-width: 1200px) {
+    padding: 15px 15px;
+
+    .order__title {
+      font-size: 18px;
+    }
+
+    .order__blocks {
+      flex-direction: column;
+    }
   }
 }
 </style>

@@ -170,6 +170,7 @@ export default {
   flex-direction: column;
 
   @media screen and (max-width: 1200px) {
+    width: 100%;
     .btn {
       margin: 0 auto;
     }
@@ -248,6 +249,17 @@ export default {
           border: 1px solid red;
           color: red;
         }
+      }
+    }
+
+    @media screen and (max-width: 1200px) {
+      flex-direction: column;
+      margin-bottom: 25px;
+
+      .sizes_text {
+        margin-top: 15px;
+        font-size: 18px;
+        align-self: flex-start;
       }
     }
   }

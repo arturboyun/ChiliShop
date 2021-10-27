@@ -104,6 +104,12 @@ export default {
       margin-right: 14px;
     }
   }
+
+  @media screen and (max-width: 1200px) {
+    & > *:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
 }
 
 

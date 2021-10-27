@@ -119,6 +119,7 @@ export default {
       position: absolute;
       right: 13px;
       top: 15px;
+      cursor: pointer;
     }
   }
 }

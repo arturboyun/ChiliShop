@@ -73,7 +73,7 @@ export default {
     }
 
     @media screen and (max-width: 720px) {
-      grid-template-columns: 153px 153px;
+      grid-template-columns: auto auto;
       grid-gap: 22px 22px;
     }
   }

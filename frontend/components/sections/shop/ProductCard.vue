@@ -69,6 +69,10 @@ export default {
     background-color: rgba(red, 0);
     transition: .25s ease;
     z-index: 3;
+
+    @media screen and (max-width: 720px) {
+      height: 209px;
+    }
   }
 
   .cover:hover {

@@ -67,6 +67,7 @@ export default {
 
   @media screen and (max-width: 1200px) {
     padding: 0 16px;
+    height: 70px;
 
     .logo {
       position: absolute;
