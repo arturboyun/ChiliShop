@@ -1,6 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  target: 'server',
+  target: 'static',
+  ssr: false,
   head: {
     title: 'chili',
     htmlAttrs: {

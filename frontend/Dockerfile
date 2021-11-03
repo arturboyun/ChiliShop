@@ -1,6 +1,4 @@
-FROM node:14.11-buster-slim
-
-RUN apt-get update
+FROM tiangolo/node-frontend:10 as build-stage
 
 WORKDIR /app
 
@@ -14,8 +12,13 @@ ARG FRONTEND_ENV=production
 
 ENV VUE_APP_ENV=${FRONTEND_ENV}
 
-RUN npm ci
-RUN npm run build
+RUN npm run generate
 
-ENV HOST 0.0.0.0
-ENV PORT 80
+
+# Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
+FROM nginx:1.15
+
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html
+
+COPY --from=build-stage /nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf

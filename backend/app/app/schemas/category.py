@@ -1,7 +1,7 @@
 from typing import ForwardRef, List, Optional
 from app.schemas.product import Product
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 # Shared properties
@@ -10,6 +10,12 @@ class CategoryBase(BaseModel):
     title: Optional[str] = None
     slug: Optional[str] = None
     parent_id: Optional[int] = None
+
+    @validator('parent_id')
+    def parent_id_none_if_zero_provided(cls, v):
+        if v == 0:
+            v = None
+        return v
 
 
 # Properties to receive on item creation

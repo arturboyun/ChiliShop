@@ -8,7 +8,7 @@
     </div>
     <div class='col'>
       <h3 class='col__title'>Главное Меню</h3>
-      <client-only>
+      <div v-if="categories.length > 0">
         <NuxtLink
           v-for='category in categories'
           :to='`/shop/category/${category.slug}`'
@@ -16,7 +16,8 @@
         >
           {{ category.name }}
         </NuxtLink>
-      </client-only>
+      </div>
+      <p v-else>Категорий нет.</p>
     </div>
     <div class='col'>
       <h3 class='col__title'>Контакты</h3>

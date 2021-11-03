@@ -166,5 +166,13 @@ textarea.input {
   height: 100px;
   resize: none;
   margin: 0;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fff;
+  }
 }
 

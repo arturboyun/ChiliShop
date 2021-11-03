@@ -4,15 +4,15 @@
       <div class='close_btn' @click.stop='hideModal'>
         <CloseIcon />
       </div>
-      <div v-if='this.items.length > 0' class='basket'>
+      <div v-if='items.length > 0' class='basket'>
         <h2 class='title'>Корзина</h2>
         <div class='items'>
           <div
-            v-for='item in this.items'
-            :key='item.product.id'
+            v-for='(item, index) in items'
+            :key='index'
             class='basket__item'
           >
-            <div :style='`background-image: url("${item.product.images[0].src}");`' class='product_image'></div>
+            <div :style='`background-image: url("${parseFirstImageURL(item.product.images)}");`' class='product_image'></div>
             <div class='product_info'>
               <div>
                 <div class='title'>{{ item.product.title }}</div>
@@ -53,36 +53,53 @@
 
 <script>
 import toggleMixin from '@/mixins/toggleMixin'
-import { mapActions, mapState } from 'vuex'
 import CloseIcon from '@/assets/icons/close.svg?inline'
+import * as utils from '@/utils'
 
 export default {
   name: 'BasketModal',
   mixins: [toggleMixin],
   components: { CloseIcon },
-  mounted() {
-    this.refreshStateItems()
-  },
-  computed: {
-    ...mapState('basket', ['items']),
-    itemsSumPrice() {
-      let sum = 0
-      this.items.forEach((item) => {
-        sum += item.product.price * item.quantity
-      })
-      return sum
+  data() {
+    return {
+      items: []
     }
   },
+  created() {
+    this.items = utils.getBasketItems()
+    console.log('created')
+  },
+  mounted() {
+    this.items = utils.getBasketItems()
+    console.log('mounted')
+  },
+  computed: {
+    itemsSumPrice() {
+      let sum = 0
+      if (this.items) {
+        this.items.forEach((item) => {
+          sum += item.product.price * item.quantity
+        })
+      }
+      return sum
+    },
+  },
   methods: {
-    ...mapActions('basket', ['refreshStateItems', 'addItem', 'removeItem', 'decreaseProductQuantity']),
     increaseCount(item) {
-      this.addItem({ product: item.product, size: item.size, quantity: 1 })
+      utils.addItemToBasket(item.product, item.size, 1)
+      this.items = utils.getBasketItems()
     },
     deleteProduct(item) {
-      this.removeItem({ product_id: item.product.id })
+      this.items = utils.removeBasketItem(item.product.id, item.size)
     },
     decreaseCount(item) {
-      this.decreaseProductQuantity(item.product.id)
+      this.items = utils.decreaseProductQuantity(item.product.id, item.size)
+    },
+    parseFirstImageURL(images) {
+      if (images.length > 0) {
+        return images[0].src
+      }
+      return undefined
     }
   }
 }
@@ -132,7 +149,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
   @media screen and (max-width: 720px) {
     width: 100%;
@@ -150,6 +166,25 @@ export default {
     text-align: center;
   }
 
+  .items {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 625px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 5px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #fff;
+    }
+  }
+
   .no_products {
     width: 400px;
     height: 200px;
@@ -159,9 +194,14 @@ export default {
 
 .basket__item {
   position: relative;
-  width: 100%;
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   margin-bottom: 27px;
+
+  @media screen and (max-width: 720px) {
+    justify-content: flex-start;
+  }
 
   .product_image {
     width: 117px;
@@ -169,20 +209,20 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin-right: 31px;
 
     @media screen and (max-width: 720px) {
       min-width: 87px;
       min-height: 119px;
       margin-right: 18px;
+      justify-content: flex-start;
     }
   }
 
   .product_info {
     display: flex;
+    width: 230px;
     flex-direction: column;
     justify-content: space-between;
-    margin-right: 58px;
 
     @media screen and (max-width: 720px) {
       margin-right: 9px;
@@ -222,7 +262,14 @@ export default {
       margin-bottom: 5px;
 
       span {
-        margin-right: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 60px;
+        height: 23px;
+        //margin-right: 14px;
+        //border: 1px solid #fff;
       }
 
       .quantity__button {
@@ -233,10 +280,10 @@ export default {
         width: 23px;
         height: 23px;
         border: 1px solid #fff;
-
-        &:not(:last-child) {
-          margin-right: 14px;
-        }
+        //
+        //&:not(:last-child) {
+        //  margin-right: 14px;
+        //}
       }
     }
 
@@ -250,7 +297,12 @@ export default {
   }
 
   .price {
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     align-self: center;
+    justify-self: flex-end;
     font-weight: 300;
     font-size: 24px;
     line-height: 29px;
@@ -301,6 +353,7 @@ export default {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: 0.13em;
+    margin-right: 25px;
     cursor: pointer;
 
     &:hover {
@@ -330,6 +383,7 @@ export default {
     .continue_button,
     .checkout_button {
       width: 100%;
+      margin: 0;
     }
 
     .continue_button {

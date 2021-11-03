@@ -77,8 +77,6 @@ services:
       context: ./frontend
       args:
         FRONTEND_ENV: dev
-    command:
-      "npm run start"
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}

@@ -42,12 +42,15 @@
 </template>
 
 <script>
+import { addItemToBasket } from '@/utils'
+
 export default {
   name: 'ProductSlug',
   data() {
     return {
       selectedSize: '',
-      sizeNotSelectedError: false
+      sizeNotSelectedError: false,
+      product: {},
     }
   },
   async asyncData({ params, store }) {
@@ -68,13 +71,9 @@ export default {
     addToBasket() {
       this.sizeNotSelectedError = !this.selectedSize
       if (!this.sizeNotSelectedError) {
-        this.$store.dispatch('basket/addItem', {
-          product: this.product,
-          size: this.selectedSize,
-          quantity: 1
-        })
+        addItemToBasket(this.product, this.selectedSize, 1)
+        this.$nuxt.$emit('open-basket')
       }
-      this.$nuxt.$emit('open-basket')
     }
   }
 }
@@ -85,7 +84,7 @@ export default {
   padding: 98px 270px;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   @media screen and (max-width: 1200px) {
     padding: 98px 15px;
@@ -221,6 +220,7 @@ export default {
     .sizes_buttons {
       display: flex;
       width: 100%;
+      margin-right: 25px;
 
       .size {
         display: flex;

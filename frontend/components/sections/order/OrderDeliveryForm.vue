@@ -126,14 +126,16 @@ export default {
   },
   mounted() {
     const data = getDeliveryData()
-    this.city = data.city
-    this.delivery = data.delivery
-    this.payment_method = data.payment_method
-    this.comment = data.comment
-    this.branch_number = data.branch_number
-    this.street = data.street
-    this.house = data.house
-    this.apartment = data.apartment
+    if (data) {
+      this.city = data.city
+      this.delivery = data.delivery
+      this.payment_method = data.payment_method
+      this.comment = data.comment
+      this.branch_number = data.branch_number
+      this.street = data.street
+      this.house = data.house
+      this.apartment = data.apartment
+    }
   },
   methods: {
     onSubmit() {

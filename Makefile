@@ -19,7 +19,7 @@ dev:
 	docker-compose up -d
 	docker-compose logs -f backend
 
-dev_build:
+build:
 	docker-compose up -d --build
 	docker-compose logs -f
 
