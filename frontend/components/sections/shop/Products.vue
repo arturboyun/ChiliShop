@@ -4,10 +4,10 @@
     <div class='products_grid'>
       <product-card
         v-for='product in products'
-        :key='product.id'
         v-if='product.images.length > 0'
+        :key='product.id'
         :price='product.price'
-        :image_url='product.images[0].src'
+        :image_url='parseFirstImageURL(product.images)'
         :title='product.title'
         :slug='product.slug'
       />
@@ -29,6 +29,14 @@ export default {
     products: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    parseFirstImageURL(images) {
+      if (images.length > 0) {
+        return images[0].src
+      }
+      return undefined
     }
   }
 }

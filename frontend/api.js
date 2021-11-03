@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { apiUrl, wayforpayApiUrl, wayforpaySecretKey } from '@/env'
+import { apiUrl, } from './env'
 import crypto from 'crypto'
 
 function authHeaders(token) {
@@ -8,16 +8,6 @@ function authHeaders(token) {
       Authorization: `Bearer ${token}`
     }
   }
-}
-
-function merchantSignature(data) {
-  let signature = `${data.merchantAccount};${data.merchantDomainName};${data.orderReference};${data.orderDate};${data.amount};${data.currency};`;
-  data.productName.forEach((name) => signature += `${name};`);
-  data.productCount.forEach((name) => signature += `${name};`);
-  data.productPrice.forEach((name) => signature += `${name};`);
-  let hmac = crypto.createHmac("md5", wayforpaySecretKey);
-  hmac.update(signature);
-  return hmac.digest('hex')
 }
 
 export const api = {

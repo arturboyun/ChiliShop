@@ -9,13 +9,16 @@
 
       <div class='catalog'>
         <h3 class='catalog__title'>Каталог</h3>
-        <ul class='catalog__categories'>
+        <ul class='catalog__categories' v-if="categories.length > 0">
           <category-recursive
             v-for='category in categories'
             :key='category.id'
             :category='category'
             class='category'
           />
+        </ul>
+        <ul v-else class="catalog__categories">
+          <li style="padding-left: 12px;">Категорий нет.</li>
         </ul>
       </div>
 

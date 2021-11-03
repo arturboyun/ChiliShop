@@ -6,17 +6,16 @@
     <div class='menu'>
       <nav class='menu__nav'>
         <ul class='nav-list'>
-          <li class='nav-list__item'>
-            <client-only>
-              <NuxtLink
-                v-for='category in categories'
-                :key='category.id'
-                :to='`/shop/category/${category.slug}`'
-              >
-                {{ category.name }}
-              </NuxtLink>
-            </client-only>
+          <li v-if="categories.length > 0" class='nav-list__item'>
+            <NuxtLink
+              v-for='category in categories'
+              :key='category.id'
+              :to='`/shop/category/${category.slug}`'
+            >
+              {{ category.name }}
+            </NuxtLink>
           </li>
+          <li v-else>Категорий нет.</li>
         </ul>
       </nav>
       <button class='basket_btn' @click='openBasket'>
@@ -28,10 +27,11 @@
 
 <script>
 import BasketIcon from '~/assets/icons/basket.svg?inline'
+import BurgerButton from "./BurgerButton";
 
 export default {
   name: 'Header',
-  components: { BasketIcon },
+  components: { BasketIcon, BurgerButton },
   data() {
     return {
       basketItemsCount: 0

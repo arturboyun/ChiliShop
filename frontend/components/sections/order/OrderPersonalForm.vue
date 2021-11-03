@@ -48,7 +48,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { getPersonalData, savePersonalData } from '~/utils'
+import * as utils from '~/utils'
 
 export default {
   name: 'OrderPersonalForm',
@@ -61,16 +61,18 @@ export default {
       email: ''
     }
   },
-  mounted() {
-    const data = getPersonalData()
-    this.first_name = data.first_name
-    this.last_name = data.last_name
-    this.phone = data.phone
-    this.email = data.email
+  created() {
+    const data = utils.getPersonalData()
+    if (data) {
+      this.first_name = data.first_name
+      this.last_name = data.last_name
+      this.phone = data.phone
+      this.email = data.email
+    }
   },
   methods: {
     onSubmit() {
-      savePersonalData({
+      utils.savePersonalData({
         first_name: this.first_name,
         last_name: this.last_name,
         phone: this.phone,

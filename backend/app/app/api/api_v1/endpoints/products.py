@@ -72,6 +72,8 @@ def create_product(
     """
     Create new product.
     """
+    if not crud.category.get(db=db, id=product_in.category_id):
+        raise HTTPException(status_code=404, detail="Category not found")
     product = crud.product.create_with_owner(db=db, obj_in=product_in, creator_id=current_user.id)
     return product
 

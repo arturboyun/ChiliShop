@@ -3,24 +3,25 @@
     <h2 class='order_info__title'>Ваш заказ</h2>
     <div v-if='items.length > 0' class='items'>
       <div
-        v-for='item in items'
-        :key='item.product.id'
+        v-for='(item, index) in items'
+        :key='index'
         class='items__item'
       >
-        <div :style='`background-image: url("${item.product.images[0].src}");`' class='item__image' />
-
-        <div class='item__info'>
-          <div>
-            <div class='title'>{{ item.product.title }}</div>
-            <div class='size'>Размер: <span>{{ item.size }}</span></div>
-          </div>
+        <div class='item_col'>
+          <div :style='`background-image: url("${parseFirstImageURL(item.product.images)}");`' class='item__image' />
+          <div class='item__info'>
+            <div>
+              <div class='title'>{{ item.product.title }}</div>
+              <div class='size'>Размер: <span>{{ item.size }}</span></div>
+            </div>
             <div class='quantity'>
               <button class='quantity__button' @click='decreaseCount(item)'>-</button>
               <span>{{ item.quantity }}</span>
               <button class='quantity__button' @click='increaseCount(item)'>+</button>
             </div>
-          <div>
-            <button class='delete_item_button' @click='deleteProduct(item)'>Удалить</button>
+            <div>
+              <button class='delete_item_button' @click='deleteProduct(item)'>Удалить</button>
+            </div>
           </div>
         </div>
 
@@ -30,38 +31,55 @@
       </div>
     </div>
     <div v-else class='items_not_found'>У вас в корзине нет товаров.</div>
+
+    <div class='order_info__sum'>
+      <div class='text'>Общая стоимость товаров:</div>
+      <div class='sum'>{{ itemsSumPrice }} ₴</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import * as utils from '~/utils'
 
 export default {
   name: 'OrderInfo',
-  beforeMount() {
-    this.refreshStateItems();
+  data() {
+    return {
+      items: [],
+    }
+  },
+  created() {
+    this.items = utils.getBasketItems()
     this.$nuxt.$emit('close-basket');
   },
   computed: {
-    ...mapState('basket', ['items']),
     itemsSumPrice() {
       let sum = 0
-      this.items.forEach((item) => {
-        sum += item.product.price * item.quantity
-      })
+      if (this.items) {
+        this.items.forEach((item) => {
+          sum += item.product.price * item.quantity
+        })
+      }
       return sum
-    }
+    },
   },
   methods: {
-    ...mapActions('basket', ['refreshStateItems', 'addItem', 'removeItem', 'decreaseProductQuantity']),
     increaseCount(item) {
-      this.addItem({ product: item.product, size: item.size, quantity: 1 })
+      utils.addItemToBasket(item.product, item.size, 1)
+      this.items = utils.getBasketItems()
     },
     deleteProduct(item) {
-      this.removeItem({ product_id: item.product.id })
+      this.items = utils.removeBasketItem(item.product.id, item.size)
     },
     decreaseCount(item) {
-      this.decreaseProductQuantity(item.product.id)
+      this.items = utils.decreaseProductQuantity(item.product.id, item.size)
+    },
+    parseFirstImageURL(images) {
+      if (images.length > 0) {
+        return images[0].src
+      }
+      return undefined
     },
     closeModal() {
       this.$root.$emit('close')
@@ -72,12 +90,35 @@ export default {
 
 <style lang='scss' scoped>
 .order_info {
-  &__title {
+  width: 80%;
+
+  &__title,
+  &__sum {
     font-size: 20px;
     line-height: 24px;
+    white-space: nowrap;
+  }
+  &__title {
     border-bottom: 2px solid #fff;
     padding-bottom: 11px;
     margin-bottom: 32px;
+  }
+
+  &__sum {
+    display: flex;
+    justify-content: space-between;
+    border-top: 2px solid #fff;
+    padding-top: 11px;
+    margin-top: 32px;
+    width: 100%;
+
+    .sum {
+      font-weight: 500;
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 100%;
   }
 }
 
@@ -88,11 +129,6 @@ export default {
 
   &::-webkit-scrollbar {
     width: 6px;
-
-  }
-
-  &::-webkit-scrollbar-track {
-
   }
 
   &::-webkit-scrollbar-thumb {
@@ -100,12 +136,17 @@ export default {
   }
 
   &__item {
-    width: 450px;
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     margin-bottom: 29px;
 
+    .item_col {
+      display: flex;
+    }
+
     .item__image {
-      width: 106px;
+      min-width: 106px;
       height: 145px;
       background-position: center;
       background-repeat: no-repeat;
@@ -114,10 +155,15 @@ export default {
     }
 
     .item__info {
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin-right: 50px;
+      margin-right: 18px;
+
+      @media screen and (max-width: 1200px) {
+        width: 120px;
+      }
 
       .title {
         font-weight: 500;
@@ -147,7 +193,14 @@ export default {
       margin-bottom: 5px;
 
       span {
-        margin-right: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        width: 60px;
+        height: 23px;
+        //margin-right: 14px;
+        //border: 1px solid #fff;
       }
 
       .quantity__button {
@@ -158,10 +211,10 @@ export default {
         width: 23px;
         height: 23px;
         border: 1px solid #fff;
-
-        &:not(:last-child) {
-          margin-right: 14px;
-        }
+        //
+        //&:not(:last-child) {
+        //  margin-right: 14px;
+        //}
       }
     }
 
@@ -175,6 +228,12 @@ export default {
     }
 
     .item__price {
+      width: 80px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      align-self: center;
+      justify-self: flex-end;
       font-weight: 300;
       font-size: 18px;
       line-height: 22px;

@@ -21,6 +21,15 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+.name {
+  white-space: nowrap;
+}
+
+.nuxt-link-exact-active,
+.nuxt-link-active {
+  font-weight: 500;
+}
+
 .sub_categories > li {
   margin-left: 12px;
   white-space: nowrap;

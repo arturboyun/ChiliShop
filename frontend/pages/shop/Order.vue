@@ -87,8 +87,16 @@ export default {
     width: 100%;
   }
 
+  @media screen and (max-width: 1750px) {
+    padding: 98px 120px 45px 45px;
+  }
+
+  @media screen and (max-width: 1375px) {
+    padding: 98px 45px 45px 45px;
+  }
+
   @media screen and (max-width: 1200px) {
-    padding: 15px 15px;
+    padding: 40px 15px;
 
     .order__title {
       font-size: 18px;
