@@ -605,16 +605,16 @@ TAG=prod FRONTEND_ENV=production bash ./scripts/build-push.sh
 3. **Deploy your stack**
 
 * Set these environment variables:
-  * `DOMAIN=chili.com`
-  * `TRAEFIK_TAG=chili.com`
-  * `STACK_NAME=chili-com`
+  * `DOMAIN=chili-lingerie.com`
+  * `TRAEFIK_TAG=chili-lingerie.com`
+  * `STACK_NAME=chili-lingerie-com`
   * `TAG=prod`
 * Use the provided `scripts/deploy.sh` file with those environment variables:
 
 ```bash
-DOMAIN=chili.com \
-TRAEFIK_TAG=chili.com \
-STACK_NAME=chili-com \
+DOMAIN=chili-lingerie.com \
+TRAEFIK_TAG=cchili-lingerie.com \
+STACK_NAME=chili-lingerie-com \
 TAG=prod \
 bash ./scripts/deploy.sh
 ```
