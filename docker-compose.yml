@@ -24,7 +24,7 @@ services:
       - --log
       # Enable the Dashboard and API
       - --api
-      - --static
+      # - --static
     deploy:
       placement:
         constraints:
