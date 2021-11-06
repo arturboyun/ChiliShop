@@ -88,11 +88,7 @@ export default {
   }
 
   @media screen and (max-width: 1750px) {
-    padding: 98px 120px 45px 45px;
-  }
-
-  @media screen and (max-width: 1375px) {
-    padding: 98px 45px 45px 45px;
+    padding: 40px 45px 45px 45px;
   }
 
   @media screen and (max-width: 1200px) {

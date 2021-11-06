@@ -43,3 +43,6 @@ psql:
 
 psql_test:
 	docker-compose run --rm test_db psql -h test_db -U postgres
+
+deploy:
+	bash ./scripts/deploy.sh

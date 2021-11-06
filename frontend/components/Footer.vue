@@ -8,7 +8,7 @@
     </div>
     <div class='col'>
       <h3 class='col__title'>Главное Меню</h3>
-      <div v-if="categories.length > 0">
+      <div v-if="categories.length > 0" class="categories">
         <NuxtLink
           v-for='category in categories'
           :to='`/shop/category/${category.slug}`'
@@ -21,12 +21,12 @@
     </div>
     <div class='col'>
       <h3 class='col__title'>Контакты</h3>
-      <a href='tel:+380965342867'>+38 096 534 28 67</a>
+      <a href='tel:+380672345959'>+380 (67) 234 59 59</a>
       <div class='social'>
-        <a href='https://telegram.org/' rel='noopener noreferrer' target='_blank'>
+        <a href='https://t.me/chililingerie' rel='noopener noreferrer' target='_blank'>
           <TelegramIcon />
         </a>
-        <a href='https://instagram.com/' rel='noopener noreferrer' target='_blank'>
+        <a href='https://instagram.com/chili_kv?utm_medium=copy_link' rel='noopener noreferrer' target='_blank'>
           <InstagramIcon />
         </a>
       </div>
@@ -113,5 +113,9 @@ export default {
   }
 }
 
+.categories {
+  display: flex;
+  flex-direction: column;
+}
 
 </style>

@@ -66,7 +66,7 @@ export default {
   z-index: 1000;
 
   @media screen and (max-width: 1200px) {
-    padding: 0 16px;
+    padding: 0 12px;
     height: 70px;
 
     .logo {

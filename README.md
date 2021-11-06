@@ -613,7 +613,7 @@ TAG=prod FRONTEND_ENV=production bash ./scripts/build-push.sh
 
 ```bash
 DOMAIN=chili-lingerie.com \
-TRAEFIK_TAG=cchili-lingerie.com \
+TRAEFIK_TAG=chili \
 STACK_NAME=chili-lingerie-com \
 TAG=prod \
 bash ./scripts/deploy.sh

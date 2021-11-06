@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { apiUrl, } from './env'
-import crypto from 'crypto'
+import {apiUrl} from './env'
 
 function authHeaders(token) {
   return {
@@ -59,35 +58,4 @@ export const api = {
   async getProductsByCategorySlug(slug, skip = 0, limit = 100) {
     return await axios.get(`${apiUrl}/api/v1/products/category/slug/${slug}?skip=${skip}&limit=${limit}`)
   },
-
-  // WayForPay
-  async createInvoice(amount, productNames, productPrices, productCounts) {
-    const data = {
-      transactionType: 'CREATE_INVOICE',
-      merchantAccount: 'freelance_user_61706d914bbfe',
-      merchantAuthType: 'SimpleSignature',
-      merchantDomainName: 'wayforpay.com/freelance',
-      merchantSignature: '',
-      apiVersion: 1,
-      language: 'ru',
-      serviceUrl: '',
-      orderReference: `myOrder1_${Date.now()}`,
-      orderDate: Date.now(),
-      amount: amount,
-      currency: 'UAH',
-      orderTimeout: 86400,
-      productName: productNames,
-      productPrice: productPrices,
-      productCount: productCounts,
-    }
-    data.merchantSignature = merchantSignature(data)
-    console.log(wayforpayApiUrl, data)
-    console.log(data.merchantSignature)
-    return await fetch(wayforpayApiUrl, {
-      method: 'POST',
-      headers: {"Access-Control-Allow-Origin": "*"},
-      mode: 'no-cors',
-      body: JSON.stringify(data)
-    })
-  }
 }

@@ -3,7 +3,7 @@ export default {
   target: 'static',
   ssr: false,
   head: {
-    title: 'chili',
+    title: 'Chili - бренд нижнего белья',
     htmlAttrs: {
       lang: 'ru'
     },

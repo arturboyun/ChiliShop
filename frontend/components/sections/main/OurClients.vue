@@ -3,12 +3,12 @@
     <h2 class="title">Наши клиенты</h2>
     <img alt="chili logo" class="logo" src="~/assets/images/logo.png">
     <div class="gallery">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
-      <img src="~/assets/images/gallery-image-1.png" alt="none" class="gallery__image">
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-1.png') + ')' }" alt="none" class="gallery__image"/>
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-2.png') + ')' }" alt="none" class="gallery__image"/>
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-3.jpg') + ')' }" alt="none" class="gallery__image"/>
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-4.png') + ')' }" alt="none" class="gallery__image"/>
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-5.png') + ')' }" alt="none" class="gallery__image"/>
+      <div :style="{ backgroundImage: 'url(' + require('@/assets/images/gallery-image-6.png') + ')' }" alt="none" class="gallery__image"/>
     </div>
   </div>
 </template>
@@ -59,13 +59,25 @@ export default {
   grid-template-columns: 271px 271px 271px;
   margin-bottom: 74px;
 
+  &__image {
+    max-width: 264px;
+    width: 264px;
+    height: 264px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
   @media screen and (max-width: 1200px) {
     grid-gap: 34px 34px;
     grid-template-columns: auto auto;
   }
 
-  &__image {
-
+  @media screen and (max-width: 720px) {
+    &__image {
+      width: 150px;
+      height: 150px;
+    }
   }
 }
 </style>

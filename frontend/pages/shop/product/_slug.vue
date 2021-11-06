@@ -263,5 +263,12 @@ export default {
       }
     }
   }
+
+  .btn.large {
+    @media screen and (max-width: 720px) {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
 }
 </style>

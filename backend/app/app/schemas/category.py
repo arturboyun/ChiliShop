@@ -24,6 +24,12 @@ class CategoryCreate(CategoryBase):
     title: str
     slug: str
 
+    @validator('slug')
+    def slug_in_lowercase(cls, v):
+        if v:
+            v = v.lower()
+        return v
+
 
 # Properties to receive on item update
 class CategoryUpdate(CategoryBase):

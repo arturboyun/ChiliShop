@@ -22,13 +22,13 @@
         </ul>
       </div>
 
-      <a class='phone' href='tel:+380965342867'>+380 96 534 2867</a>
+      <a class='phone' href='tel:+380672345959'>+380 (67) 234 59 59</a>
 
       <div class='social'>
-        <a href='https://telegram.org/' rel='noopener noreferrer' target='_blank'>
+        <a href='https://t.me/chililingerie' rel='noopener noreferrer' target='_blank'>
           <TelegramIcon />
         </a>
-        <a href='https://instagram.com/' rel='noopener noreferrer' target='_blank'>
+        <a href='https://instagram.com/chili_kv?utm_medium=copy_link' rel='noopener noreferrer' target='_blank'>
           <InstagramIcon />
         </a>
       </div>

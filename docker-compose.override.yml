@@ -76,7 +76,7 @@ services:
     build:
       context: ./frontend
       args:
-        FRONTEND_ENV: dev
+        FRONTEND_ENV: ${FRONTEND_ENV-production}
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}

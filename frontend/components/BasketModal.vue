@@ -67,10 +67,16 @@ export default {
   },
   created() {
     this.items = utils.getBasketItems()
+    if (!this.items) {
+      this.items = []
+    }
     console.log('created')
   },
   mounted() {
     this.items = utils.getBasketItems()
+    if (!this.items) {
+      this.items = []
+    }
     console.log('mounted')
   },
   computed: {
@@ -145,7 +151,7 @@ export default {
 .basket {
   width: 100%;
   background-color: #222222;
-  padding: 30px 45px 35px;
+  padding: 30px 45px 35px 45px ;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -186,8 +192,8 @@ export default {
   }
 
   .no_products {
-    width: 400px;
-    height: 200px;
+    width: 100%;
+    height: 300px;
     text-align: center;
   }
 }
@@ -205,12 +211,14 @@ export default {
 
   .product_image {
     width: 117px;
+    min-width: 117px;
     height: 160px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 
     @media screen and (max-width: 720px) {
+      width: 87px;
       min-width: 87px;
       min-height: 119px;
       margin-right: 18px;
@@ -225,6 +233,7 @@ export default {
     justify-content: space-between;
 
     @media screen and (max-width: 720px) {
+      width: 100%;
       margin-right: 9px;
     }
 

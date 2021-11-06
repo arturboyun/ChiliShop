@@ -71,6 +71,30 @@ def create_category(
     return category
 
 
+@router.put("/{id}", response_model=schemas.Category)
+def update_product(
+    *,
+    db: Session = Depends(deps.get_db),
+    id: int,
+    category_in: schemas.CategoryUpdate,
+    current_user: models.User = Depends(deps.get_current_active_user),
+) -> Any:
+    """
+    Update an category.
+    """
+    if category_in.parent_id:
+        parent_category = crud.category.get(db=db, id=category_in.parent_id)
+        if not parent_category:
+            raise HTTPException(404, 'Parent category not found')
+
+    category = crud.category.get(db, id)
+    if not category:
+        raise HTTPException(status_code=403, detail="You haven't access to this category.")
+
+    category = crud.category.update(db=db, db_obj=category, obj_in=category_in)
+    return category
+
+
 @router.delete('/{id}', response_model=Msg)
 def delete_category(
     *,

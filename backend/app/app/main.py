@@ -19,5 +19,5 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_headers=["*"],
     )
 
-app.mount("/media", StaticFiles(directory="media"), name="media")
+app.mount("/media", StaticFiles(directory="/media"), name="media")
 app.include_router(api_router, prefix=settings.API_V1_STR)
