@@ -10,7 +10,9 @@ COPY ./ /app/
 
 ARG FRONTEND_ENV=production
 
-ENV VUE_APP_ENV=${FRONTEND_ENV}
+ENV NUXT_ENV_IS=${FRONTEND_ENV}
+
+RUN echo ${NUXT_ENV_IS}
 
 RUN npm run generate
 
