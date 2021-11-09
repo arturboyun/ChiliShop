@@ -3,3 +3,7 @@
     <h1>This is an CATEGORIES page</h1>
   </div>
 </template>
+
+<script>
+export default {};
+</script>
