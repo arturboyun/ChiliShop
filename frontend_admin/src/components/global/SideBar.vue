@@ -22,7 +22,7 @@
     <div class="logout-button">
       <it-tooltip placement="right" :disabled="isOpen">
         <template #content>Выход</template>
-        <it-icon box class="icon logout" name="logout" @click="toggle" />
+        <it-icon box class="icon logout" name="logout" @click="logout" />
       </it-tooltip>
       <p class="text">Выход</p>
     </div>
@@ -58,7 +58,8 @@ export default {
     ]);
     let isOpen = ref(false);
     const toggle = () => (isOpen.value = !isOpen.value);
-    return { isOpen, menuItems, toggle };
+    const logout = () => console.log('logout pressed');
+    return { isOpen, menuItems, toggle, logout };
   },
 };
 </script>

@@ -21,6 +21,7 @@ const routeGuardMain = async (to, from, next) => {
       next();
     }
   } else {
+    await store.dispatch('getMe');
     if (to.path === '/' || to.path === '/login') {
       next('/dashboard');
     } else {
