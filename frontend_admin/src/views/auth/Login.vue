@@ -26,15 +26,18 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'Login',
   setup(props, context) {
+    const app = getCurrentInstance();
     const store = useStore();
     const router = useRouter();
+
+    const showMessage = app.appContext.config.globalProperties.$Message;
 
     const username = ref('');
     const password = ref('');
@@ -48,10 +51,10 @@ export default {
       });
 
       if (store.getters.isLoggedIn) {
+        showMessage.success({ text: 'Вы успешно вошли!' });
         router.push({ path: '/' });
-        // context.$Message.success({ text: 'Вы успешно вошли!' });
       } else {
-        // context.$Message.error({ text: 'Что-то пошло не так!' });
+        showMessage.danger({ text: 'Ой. Логин или пароль не верны!' });
       }
     };
 

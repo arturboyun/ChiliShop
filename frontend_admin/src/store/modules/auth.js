@@ -5,6 +5,7 @@ import utils from '../../utils';
 const state = {
   isLoggedIn: false,
   authToken: '',
+  userInfo: {},
 };
 
 // Getters
@@ -16,7 +17,7 @@ const getters = {
 
 // Actions
 const actions = {
-  async loginGetToken({ commit, getters, dispatch }, { username, password }) {
+  async loginGetToken({ commit, dispatch }, { username, password }) {
     try {
       const response = await api.loginGetToken(username, password);
       const { access_token } = response.data;
@@ -41,14 +42,12 @@ const actions = {
     }
   },
   async getMe({ state, commit, dispatch }) {
+    const authToken = await utils.getAuthToken();
     try {
-      const response = await api.getMe(state.authToken);
+      const response = await api.getMe(authToken);
+      await commit('setUserInfo', response.data);
     } catch (err) {
-      console.log(err);
-      if (err.toJSON().status === 401) {
-        await commit('setLoggedIn', false);
-        await dispatch('logout');
-      }
+      await dispatch('logout');
     }
   },
   async logout({ commit }) {
@@ -60,15 +59,18 @@ const actions = {
 
 // Mutations
 const mutations = {
-  saveAuthToken(state, authToken) {
+  async saveAuthToken(state, authToken) {
     state.authToken = authToken;
-    utils.saveAuthToken(authToken);
+    await utils.saveAuthToken(authToken);
   },
   setLoggedIn(state, loggedIn) {
     state.isLoggedIn = loggedIn;
   },
   setAuthToken(state, payload) {
     state.authToken = payload;
+  },
+  setUserInfo(state, payload) {
+    state.userInfo = payload;
   },
 };
 

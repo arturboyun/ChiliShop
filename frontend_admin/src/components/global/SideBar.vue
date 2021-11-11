@@ -30,15 +30,19 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'SideBar',
   setup() {
+    const app = getCurrentInstance();
     const store = useStore();
     const router = useRouter();
+
+    const showMessage = app.appContext.config.globalProperties.$Message;
+
     let menuItems = ref([
       { name: 'Панель', icon: 'dashboard', iconClass: 'dashboard', to: '/' },
       {
@@ -63,6 +67,7 @@ export default {
     let isOpen = ref(false);
     const toggle = () => (isOpen.value = !isOpen.value);
     const makeLogout = async () => {
+      showMessage.warning({ text: 'Вы вышли.' });
       await store.dispatch('logout');
       await router.push('/');
     };
