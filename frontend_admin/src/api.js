@@ -16,6 +16,13 @@ export const api = {
     params.append('password', password);
     return axios.post(`${apiUrl}/api/v1/login/access-token`, params);
   },
+  async testAuthToken(token) {
+    return axios.post(
+      `${apiUrl}/api/v1/login/test-token`,
+      {},
+      authHeaders(token)
+    );
+  },
   async getMe(token) {
     return axios.get(`${apiUrl}/api/v1/users/me`, authHeaders(token));
   },

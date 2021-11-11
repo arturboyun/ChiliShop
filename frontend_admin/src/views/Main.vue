@@ -1,5 +1,5 @@
 <template>
-  <SideBar v-if="showSideBar" />
+  <SideBar v-if="$store.getters.isLoggedIn" />
   <div class="page">
     <router-view />
   </div>
@@ -14,6 +14,7 @@ import SideBar from '@/components/global/SideBar';
 import { ref } from 'vue';
 
 const routeGuardMain = async (to, from, next) => {
+  await store.dispatch('testToken');
   if (!store.getters.isLoggedIn) {
     if (to.path !== '/login') {
       next('/login');
@@ -21,7 +22,6 @@ const routeGuardMain = async (to, from, next) => {
       next();
     }
   } else {
-    await store.dispatch('getMe');
     if (to.path === '/' || to.path === '/login') {
       next('/dashboard');
     } else {
@@ -42,9 +42,8 @@ export default {
   },
 
   setup() {
-    const showSideBar = ref(store.getters.isLoggedIn);
     const toggleOptions = ref(['wb_sunny', 'bedtime']);
-    return { showSideBar, toggleOptions, toggleValue: ref('wb_sunny') };
+    return { toggleOptions, toggleValue: ref('wb_sunny') };
   },
 };
 </script>

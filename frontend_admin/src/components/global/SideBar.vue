@@ -22,7 +22,7 @@
     <div class="logout-button">
       <it-tooltip placement="right" :disabled="isOpen">
         <template #content>Выход</template>
-        <it-icon box class="icon logout" name="logout" @click="logout" />
+        <it-icon box class="icon logout" name="logout" @click="makeLogout" />
       </it-tooltip>
       <p class="text">Выход</p>
     </div>
@@ -31,10 +31,14 @@
 
 <script>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'SideBar',
   setup() {
+    const store = useStore();
+    const router = useRouter();
     let menuItems = ref([
       { name: 'Панель', icon: 'dashboard', iconClass: 'dashboard', to: '/' },
       {
@@ -58,8 +62,11 @@ export default {
     ]);
     let isOpen = ref(false);
     const toggle = () => (isOpen.value = !isOpen.value);
-    const logout = () => console.log('logout pressed');
-    return { isOpen, menuItems, toggle, logout };
+    const makeLogout = async () => {
+      await store.dispatch('logout');
+      await router.push('/');
+    };
+    return { isOpen, menuItems, toggle, makeLogout };
   },
 };
 </script>

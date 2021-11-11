@@ -28,30 +28,33 @@
 <script>
 import { ref, watchEffect } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'Login',
-  setup() {
+  setup(props, context) {
     const store = useStore();
+    const router = useRouter();
 
     const username = ref('');
     const password = ref('');
     const usernameErrors = ref([]);
     const passwordErrors = ref([]);
 
-    const onSubmit = () => {
-      store.dispatch('loginGetToken', {
+    const onSubmit = async () => {
+      await store.dispatch('loginGetToken', {
         username: username.value,
         password: password.value,
       });
-    };
-    watchEffect(() => {
-      if (!username.value.length) {
-        usernameErrors.value.push('Это поле обязательно.');
+
+      if (store.getters.isLoggedIn) {
+        router.push({ path: '/' });
+        // context.$Message.success({ text: 'Вы успешно вошли!' });
       } else {
-        usernameErrors.value = [];
+        // context.$Message.error({ text: 'Что-то пошло не так!' });
       }
-    });
+    };
+
     return { username, password, usernameErrors, passwordErrors, onSubmit };
   },
 };
