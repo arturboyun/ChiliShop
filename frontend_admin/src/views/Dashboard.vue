@@ -1,5 +1,7 @@
 <template>
-  <div class="dashboard">Dashboard</div>
+  <div class="dashboard">
+    <h1 class="title">Админ Панель</h1>
+  </div>
 </template>
 
 <script>

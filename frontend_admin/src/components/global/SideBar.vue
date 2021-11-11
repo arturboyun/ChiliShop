@@ -1,7 +1,20 @@
 <template>
   <div class="sidebar" :class="{ open: isOpen }">
     <div class="menu-button">
-      <it-icon box class="icon menu" name="menu" @click="toggle" />
+      <it-icon
+        box
+        :class="['icon', 'menu', { open: isOpen }]"
+        class=""
+        name="menu"
+        @click="toggle"
+      />
+      <it-icon
+        box
+        :class="['icon menu close', { open: isOpen }]"
+        class=""
+        name="close"
+        @click="toggle"
+      />
     </div>
     <div class="links">
       <router-link
@@ -44,7 +57,12 @@ export default {
     const showMessage = app.appContext.config.globalProperties.$Message;
 
     let menuItems = ref([
-      { name: 'Панель', icon: 'dashboard', iconClass: 'dashboard', to: '/' },
+      {
+        name: 'Панель',
+        icon: 'dashboard',
+        iconClass: 'dashboard',
+        to: '/dashboard',
+      },
       {
         name: 'Заказы',
         icon: 'shopping_basket',
@@ -85,19 +103,42 @@ export default {
   height: 100vh;
   background-color: #2a2a2a;
   border-radius: 0 12px 12px 0;
-  transition: 0.5s ease;
+  transition: 0.35s ease;
   box-shadow: 3px 0 6px rgba(#000, 0.45);
   width: 64px;
 
   .menu-button {
-    padding: 15px;
-
+    position: relative;
+    width: 64px;
+    height: 64px;
     .menu {
+      position: absolute;
       font-size: 25px;
       padding: 4px;
-      width: 100%;
       margin: 0;
       cursor: pointer;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s ease;
+
+      &.open {
+        opacity: 0;
+        visibility: hidden;
+        transform: translate(calc(-50% - 30px), -50%);
+      }
+    }
+
+    .menu.close {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(calc(-50% + 30px), -50%);
+
+      &.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%);
+      }
     }
   }
 
@@ -124,10 +165,27 @@ export default {
   }
 
   .links {
-    transition: 0.5s ease;
+    transition: 0.35s ease;
     overflow: hidden;
     width: 100%;
     padding: 15px;
+
+    .link::before {
+      content: '';
+      position: absolute;
+      height: 32px;
+      background-color: #fff;
+      width: 5px;
+      left: 0;
+      z-index: 2;
+      border-radius: 0 5px 5px 0;
+      transform: translateX(-5px);
+      transition: 0.35s ease;
+    }
+
+    .link.router-link-active::before {
+      transform: translateX(0px);
+    }
   }
 
   &.open {

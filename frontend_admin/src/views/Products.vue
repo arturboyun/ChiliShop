@@ -1,5 +1,5 @@
 <template>
   <div class="some-class">
-    <h1>This is an PRODUCTS page</h1>
+    <h1>Товары</h1>
   </div>
 </template>

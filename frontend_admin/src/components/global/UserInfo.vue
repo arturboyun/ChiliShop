@@ -21,6 +21,15 @@ export default {
   right: 25px;
   display: flex;
   align-items: center;
+  background-color: #f1f0f5;
+  padding: 5px 5px 5px 15px;
+  border-radius: 40px;
+  transition: 0.35s ease;
+  cursor: default;
+
+  &:hover {
+    background-color: #d5cdf3;
+  }
 
   .name {
     margin-right: 15px;
@@ -31,7 +40,7 @@ export default {
     padding: 6px;
     border-radius: 50%;
     color: #fff;
-    background-color: #6065be;
+    background-color: #3a3a3a;
   }
 }
 </style>

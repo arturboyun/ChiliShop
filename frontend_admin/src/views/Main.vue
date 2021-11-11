@@ -59,6 +59,7 @@ export default {
 }
 
 .theme-button {
+  display: none;
   position: fixed;
   bottom: 15px;
   right: 25px;
