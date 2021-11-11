@@ -11,31 +11,31 @@ const routes = [
         path: 'login',
         name: 'Login',
         component: () =>
-          import(/* webpackChunkName: "login" */ '@/views/auth/Login.vue'),
+          import(/* webpackChunkName: "login" */ '@/pages/auth/Login.vue'),
       },
       {
         path: 'dashboard',
         name: 'Dashboard',
         component: () =>
-          import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
+          import(/* webpackChunkName: "dashboard" */ '@/pages/Dashboard.vue'),
       },
       {
         path: 'orders',
         name: 'Orders',
         component: () =>
-          import(/* webpackChunkName: "orders" */ '@/views/Orders.vue'),
+          import(/* webpackChunkName: "orders" */ '@/pages/Orders.vue'),
       },
       {
         path: 'products',
         name: 'Products',
         component: () =>
-          import(/* webpackChunkName: "products" */ '@/views/Products.vue'),
+          import(/* webpackChunkName: "products" */ '@/pages/Products.vue'),
       },
       {
         path: 'categories',
         name: 'Categories',
         component: () =>
-          import(/* webpackChunkName: "categories" */ '@/views/Categories.vue'),
+          import(/* webpackChunkName: "categories" */ '@/pages/Categories.vue'),
       },
     ],
   },
@@ -43,7 +43,7 @@ const routes = [
     path: '/:pathMatch(.*)*',
     component: () =>
       import(
-        /* webpackChunkName: "not_found_page" */ '@/views/NotFoundPage.vue'
+        /* webpackChunkName: "not_found_page" */ '@/pages/NotFoundPage.vue'
       ),
   },
 ];

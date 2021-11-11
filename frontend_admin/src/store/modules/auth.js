@@ -59,6 +59,7 @@ const actions = {
     await utils.removeAuthToken();
     await commit('setLoggedIn', false);
     await commit('setAuthToken', '');
+    await commit('setUserInfo', {});
   },
 };
 

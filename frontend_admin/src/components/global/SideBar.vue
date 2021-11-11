@@ -107,63 +107,6 @@ export default {
   box-shadow: 3px 0 6px rgba(#000, 0.45);
   width: 64px;
 
-  .menu-button {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    .menu {
-      position: absolute;
-      font-size: 25px;
-      padding: 4px;
-      margin: 0;
-      cursor: pointer;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: 0.2s ease;
-
-      &.open {
-        opacity: 0;
-        visibility: hidden;
-        transform: translate(calc(-50% - 30px), -50%);
-      }
-    }
-
-    .menu.close {
-      opacity: 0;
-      visibility: hidden;
-      transform: translate(calc(-50% + 30px), -50%);
-
-      &.open {
-        opacity: 1;
-        visibility: visible;
-        transform: translate(-50%, -50%);
-      }
-    }
-  }
-
-  .logout-button {
-    padding: 15px;
-    margin-top: auto;
-    width: 100%;
-    overflow: hidden;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    .logout {
-      transform: rotate(180deg);
-    }
-
-    &:hover {
-      color: #94c2ff;
-      .logout {
-        transform: rotate(180deg) scale(1.15);
-      }
-    }
-  }
-
   .links {
     transition: 0.35s ease;
     overflow: hidden;
@@ -231,6 +174,70 @@ export default {
 
     &.categories {
       background-color: #c9984e;
+    }
+  }
+
+  .menu-button {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    .menu {
+      position: absolute;
+      font-size: 25px;
+      padding: 4px;
+      margin: 0;
+      cursor: pointer;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.2s ease;
+
+      &.open {
+        opacity: 0;
+        visibility: hidden;
+        transform: translate(calc(-50% - 30px), -50%);
+      }
+    }
+
+    .menu.close {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(calc(-50% + 30px), -50%);
+
+      &.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .logout-button {
+    padding: 15px;
+    margin-top: auto;
+    width: 100%;
+    overflow: hidden;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .logout {
+      // transform: rotate(0deg);
+    }
+
+    &:hover {
+      color: #94c2ff;
+      .logout {
+        transform: rotate(-180deg) scale(1.15);
+      }
+    }
+  }
+
+  .menu-button,
+  .logout-button {
+    .icon:hover {
+      color: #d5cdf3;
     }
   }
 }

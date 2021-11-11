@@ -3,7 +3,7 @@
   <div class="page">
     <router-view />
   </div>
-  <UserInfo :name="username" />
+  <UserInfo v-if="username" :name="username" />
   <div class="theme-button">
     <it-toggle v-model="toggleValue" :options="toggleOptions" icons round />
   </div>
@@ -13,7 +13,7 @@
 import store from '@/store';
 import SideBar from '@/components/global/SideBar';
 import UserInfo from '@/components/global/UserInfo';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const routeGuardMain = async (to, from, next) => {
   await store.dispatch('testToken');
@@ -45,7 +45,7 @@ export default {
   },
 
   setup() {
-    const username = ref(store.getters.getUsername);
+    const username = computed(() => store.getters.getUsername);
     const toggleOptions = ref(['wb_sunny', 'bedtime']);
     return { toggleOptions, toggleValue: ref('wb_sunny'), username };
   },
