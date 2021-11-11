@@ -13,6 +13,11 @@ const getters = {
   isLoggedIn(state) {
     return state.isLoggedIn;
   },
+  getUsername(state) {
+    return state.userInfo.full_name
+      ? state.userInfo.full_name
+      : state.userInfo.username;
+  },
 };
 
 // Actions
