@@ -47,9 +47,8 @@ const actions = {
     }
   },
   async getMe({ state, commit, dispatch }) {
-    const authToken = await utils.getAuthToken();
     try {
-      const response = await api.getMe(authToken);
+      const response = await api.getMe(state.authToken);
       await commit('setUserInfo', response.data);
     } catch (err) {
       await dispatch('logout');

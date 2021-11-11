@@ -14,6 +14,7 @@ import store from '@/store';
 import SideBar from '@/components/global/SideBar';
 import UserInfo from '@/components/global/UserInfo';
 import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 const routeGuardMain = async (to, from, next) => {
   await store.dispatch('testToken');
@@ -36,15 +37,14 @@ const routeGuardMain = async (to, from, next) => {
 export default {
   name: 'Main',
   components: { SideBar, UserInfo },
-
   beforeRouteEnter(to, from, next) {
     routeGuardMain(to, from, next);
   },
   beforeRouteUpdate(to, from, next) {
     routeGuardMain(to, from, next);
   },
-
   setup() {
+    const store = useStore();
     const username = computed(() => store.getters.getUsername);
     const toggleOptions = ref(['wb_sunny', 'bedtime']);
     return { toggleOptions, toggleValue: ref('wb_sunny'), username };
