@@ -33,3 +33,34 @@ h1 {
 h2 {
   font-size: 20px;
 }
+
+.table {
+  overflow-x: auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px rgba(#000, 0.2);
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 12px 8px;
+    white-space: nowrap;
+  }
+
+  tr:not(:last-child) {
+    border-bottom: 1px solid rgba(#3a3a3a, 0.2);
+  }
+
+  .actions {
+    display: flex;
+
+    & > *:not(:last-child) {
+      margin-right: 15px;
+    }
+  }
+}

@@ -37,6 +37,13 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "categories" */ '@/pages/Categories.vue'),
       },
+      {
+        path: 'category/:slug',
+        name: 'Category',
+        props: true,
+        component: () =>
+          import(/* webpackChunkName: "category" */ '@/pages/Category.vue'),
+      },
     ],
   },
   {

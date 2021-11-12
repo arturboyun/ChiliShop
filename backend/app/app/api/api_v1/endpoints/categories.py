@@ -34,7 +34,7 @@ def read_category(*, db: Session = Depends(deps.get_db), id: int) -> Any:
     """
     category = crud.category.get(db, id)
     if not category:
-        raise HTTPException(status_code=403, detail="You haven't access to this category.")
+        raise HTTPException(status_code=404, detail="Category not found.")
     return category
 
 
@@ -45,7 +45,7 @@ def read_category_by_slug(*, db: Session = Depends(deps.get_db), slug: str) -> A
     """
     category = crud.category.get_by_slug(db, slug)
     if not category:
-        raise HTTPException(status_code=403, detail="You haven't access to this category.")
+        raise HTTPException(status_code=404, detail="Category not found.")
     return category
 
 
@@ -89,7 +89,7 @@ def update_product(
 
     category = crud.category.get(db, id)
     if not category:
-        raise HTTPException(status_code=403, detail="You haven't access to this category.")
+        raise HTTPException(status_code=404, detail="Category not found.")
 
     category = crud.category.update(db=db, db_obj=category, obj_in=category_in)
     return category
@@ -107,6 +107,6 @@ def delete_category(
     """
     category = crud.category.get(db=db, id=id)
     if not category:
-        raise HTTPException(status_code=403, detail="You haven't access to this category.")
+        raise HTTPException(status_code=404, detail="Category not found.")
     category = crud.category.remove(db=db, id=id)
     return category

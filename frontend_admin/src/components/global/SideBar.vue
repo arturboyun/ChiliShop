@@ -132,7 +132,7 @@ export default {
   }
 
   &.open {
-    width: 10%;
+    width: 280px;
     .links,
     .logout-button {
       width: 100%;

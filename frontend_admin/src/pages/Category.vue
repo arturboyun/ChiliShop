@@ -1,9 +1,13 @@
 <template>
-  <div class="categories">
+  <div class="category">
     <h1 class="title">Категории</h1>
 
     <div class="actions">
-      <div class="col"></div>
+      <div class="col">
+        <h3 v-if="Object.keys(category).length > 0">
+          Категория: {{ category.name }}
+        </h3>
+      </div>
       <div class="col">
         <it-button class="create-category-btn" type="primary" round>
           Создать Категорию
@@ -15,9 +19,11 @@
       <it-loading />
     </div>
 
-    <CategoriesTable v-else-if="categories.length" :categories="categories" />
-
-    <div v-else class="not-categories">Категорий не найдено.</div>
+    <CategoriesTable
+      v-else-if="!loading && Object.keys(category).length > 0"
+      :categories="category.children"
+    />
+    <div v-else class="current-category-not-found">Категория не найдена</div>
   </div>
 </template>
 
@@ -28,7 +34,7 @@ import { useRoute } from 'vue-router';
 import CategoriesTable from '../components/items/CategoriesTable';
 
 export default {
-  name: 'Categories',
+  name: 'Category',
   components: { CategoriesTable },
   setup() {
     const route = useRoute();
@@ -36,28 +42,22 @@ export default {
 
     const loading = ref(true);
 
-    const categories = computed(() => store.getters.getCategories);
+    const category = computed(() => store.getters.getCurrentCategory);
 
     onMounted(async () => {
+      const slug = route.params.slug;
       loading.value = true;
-      await store.dispatch('fetchCategories', { skip: 0, limit: 100 });
+      await store.dispatch('fetchCategoryBySlug', { slug });
       setTimeout(() => (loading.value = false), 1200);
-
-      // await store.dispatch('createCategory', {
-      //   name: 'Test 4',
-      //   title: 'Test 4 Title',
-      //   slug: 'test_4_category',
-      //   parent_id: '4',
-      // });
     });
 
-    return { categories, loading };
+    return { category, loading };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.categories {
+.category {
   width: 100%;
   .title {
     margin-bottom: 25px;
