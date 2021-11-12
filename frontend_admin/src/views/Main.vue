@@ -55,6 +55,7 @@ export default {
 <style lang="scss">
 .page {
   width: 100%;
+  overflow: hidden;
   padding: 28px;
 }
 
