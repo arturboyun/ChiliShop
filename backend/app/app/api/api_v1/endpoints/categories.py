@@ -2,6 +2,7 @@ import logging
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException
+from slugify import slugify
 from sqlalchemy.orm.session import Session
 
 from app import crud, models, schemas
@@ -62,6 +63,9 @@ def create_category(
         parent_category = crud.category.get(db=db, id=category_in.parent_id)
         if not parent_category:
             raise HTTPException(404, 'Parent category not found')
+
+    if not category_in.slug:
+        category_in.slug = slugify(category_in.name)
 
     category = crud.category.get_by_slug(db=db, slug=category_in.slug)
     if category:

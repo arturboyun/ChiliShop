@@ -24,6 +24,10 @@ class CRUDProduct(CRUDBase[Product, ProductCreate, ProductUpdate]):
                 image.src = str(base_url)[:-1] + image.src
         return db_obj
 
+    def get_by_slug(self, db: Session, slug: str) -> Optional[Product]:
+        db_obj = db.query(self.model).filter(self.model.slug == slug).first()
+        return db_obj
+
     def get_by_slug_with_images(self, db: Session, slug: str, base_url: URL) -> Optional[Product]:
         db_obj = db.query(self.model).outerjoin(Image).filter(self.model.slug == slug).first()
         if db_obj:

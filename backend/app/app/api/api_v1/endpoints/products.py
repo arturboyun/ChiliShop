@@ -2,11 +2,14 @@ import logging
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException
+from slugify import slugify
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
 from starlette.requests import Request
+
+from app.utils import random_lower_string
 
 router = APIRouter()
 
@@ -74,6 +77,18 @@ def create_product(
     """
     if not crud.category.get(db=db, id=product_in.category_id):
         raise HTTPException(status_code=404, detail="Category not found")
+
+    if not product_in.slug:
+        product_in.slug = slugify(product_in.title)
+
+    product = crud.product.get_by_slug(db=db, slug=product_in.slug)
+    if product:
+        product_in.slug += random_lower_string(8)
+
+        product = crud.product.get_by_slug(db=db, slug=product_in.slug)
+        if product:
+            raise HTTPException(400, 'Category with this slug already exists.')
+
     product = crud.product.create_with_owner(db=db, obj_in=product_in, creator_id=current_user.id)
     return product
 

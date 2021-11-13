@@ -17,7 +17,6 @@ class ProductBase(BaseModel):
 
 # Properties to receive on item creation
 class ProductCreate(ProductBase):
-    slug: str
     title: str
     price: int
     quantity: int

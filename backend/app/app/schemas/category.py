@@ -22,7 +22,6 @@ class CategoryBase(BaseModel):
 class CategoryCreate(CategoryBase):
     name: str
     title: str
-    slug: str
 
     @validator('slug')
     def slug_in_lowercase(cls, v):
