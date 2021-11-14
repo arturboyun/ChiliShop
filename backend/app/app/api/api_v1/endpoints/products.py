@@ -13,7 +13,7 @@ from app.utils import random_lower_string
 
 router = APIRouter()
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
 
@@ -83,11 +83,11 @@ def create_product(
 
     product = crud.product.get_by_slug(db=db, slug=product_in.slug)
     if product:
-        product_in.slug += random_lower_string(8)
+        product_in.slug = product_in.slug + random_lower_string(8)
 
-        product = crud.product.get_by_slug(db=db, slug=product_in.slug)
-        if product:
-            raise HTTPException(400, 'Category with this slug already exists.')
+    product = crud.product.get_by_slug(db=db, slug=product_in.slug)
+    if product:
+        raise HTTPException(400, 'Category with this slug already exists.')
 
     product = crud.product.create_with_owner(db=db, obj_in=product_in, creator_id=current_user.id)
     return product

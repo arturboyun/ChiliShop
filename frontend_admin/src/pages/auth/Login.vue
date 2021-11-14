@@ -52,7 +52,7 @@ export default {
 
       if (store.getters.isLoggedIn) {
         showMessage.success({ text: 'Вы успешно вошли!' });
-        router.push({ path: '/' });
+        await router.push({ path: '/' });
       } else {
         showMessage.danger({ text: 'Ой. Логин или пароль не верны!' });
       }

@@ -33,7 +33,16 @@ const actions = {
         rootState.auth.authToken,
         payload
       );
-      await dispatch('fetchCategories', { skip: 0, limit: 100 });
+      await dispatch('fetchCategories', { skip: 0, limit: 500 });
+    } catch (err) {}
+  },
+  async deleteCategory({ commit, dispatch, rootState }, { categoryId }) {
+    try {
+      const response = await api.deleteCategory(
+        rootState.auth.authToken,
+        categoryId
+      );
+      await dispatch('fetchCategories', { skip: 0, limit: 500 });
     } catch (err) {}
   },
 };

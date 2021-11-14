@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session
 from app import crud, models, schemas
 from app.api import deps
 from app.schemas import Msg
+from app.utils import random_lower_string
 
 router = APIRouter()
 
@@ -69,6 +70,12 @@ def create_category(
 
     category = crud.category.get_by_slug(db=db, slug=category_in.slug)
     if category:
+        category_in.slug += "-" + random_lower_string(8)
+
+    print(str(category_in.json()))
+
+    category = crud.category.get_by_slug(db=db, slug=category_in.slug)
+    if category:
         raise HTTPException(400, 'Category with this slug already exists.')
 
     category = crud.category.create(db=db, obj_in=category_in)
@@ -76,7 +83,7 @@ def create_category(
 
 
 @router.put("/{id}", response_model=schemas.Category)
-def update_product(
+def update_category(
     *,
     db: Session = Depends(deps.get_db),
     id: int,
@@ -113,4 +120,4 @@ def delete_category(
     if not category:
         raise HTTPException(status_code=404, detail="Category not found.")
     category = crud.category.remove(db=db, id=id)
-    return category
+    return Msg(msg='Category Deleted')

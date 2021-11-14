@@ -1,6 +1,7 @@
 <template>
   <div class="category-modal">
     <h2>Создание Категории</h2>
+
     <it-input
       v-model="form.name"
       :status="v$.name.$errors.length ? 'danger' : ''"
@@ -8,6 +9,7 @@
       label-top="* Имя"
       placeholder="Имя Категории"
     />
+
     <it-input
       v-model="form.title"
       :status="v$.title.$errors.length ? 'danger' : ''"
@@ -15,24 +17,34 @@
       label-top="* Заголовок"
       placeholder="Заголовок Категории"
     />
+
     <it-input v-model="form.parent" label-top="ID Родителя" placeholder="0" />
+
     <it-input v-model="form.slug" label-top="Slug" placeholder="my-category" />
-    <it-button @click="submit" type="primary">Создать Категорию</it-button>
+
+    <it-button type="primary" @click="formSubmit">Создать Категорию</it-button>
   </div>
 </template>
 
 <script>
 import useVuelidate from '@vuelidate/core';
-import { required, numeric, helpers } from '@vuelidate/validators';
-import { ref, computed } from 'vue';
+import { required, helpers } from '@vuelidate/validators';
+import { ref, computed, getCurrentInstance } from 'vue';
+import { useStore } from 'vuex';
 
 const requiredRus = helpers.withMessage('Это поле обязательно', required);
 
 export default {
   props: {
+    modelValue: { type: Boolean, default: false },
     parentId: { type: [String || Number], default: 0 },
   },
-  setup(props) {
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const app = getCurrentInstance();
+    const store = useStore();
+    const showMessage = app.appContext.config.globalProperties.$Message;
+
     const form = ref({
       parent: ref(Number(props.parentId)),
       name: ref(null),
@@ -43,21 +55,27 @@ export default {
     const rules = computed(() => ({
       name: { requiredRus },
       title: { requiredRus },
-      parent: { requiredRus, numeric },
+      parent: { requiredRus },
     }));
     const v$ = useVuelidate(rules, form);
 
     const formSubmit = async () => {
       const result = await v$.value.$validate();
-      console.log(result);
       if (!result) {
-        // notify user form is invalid
-        return;
+        showMessage.warning({ text: 'Что-то пошло не так!' });
+      } else {
+        await store.dispatch('createCategory', {
+          name: form.value.name,
+          title: form.value.title,
+          slug: form.value.slug,
+          parent_id: form.value.parent,
+        });
+        setTimeout(() => {}, 500);
+        emit('update:modelValue', false);
       }
-      // perform async actions
     };
 
-    return { v$, form, submit: formSubmit };
+    return { v$, form, formSubmit };
   },
 };
 </script>

@@ -43,4 +43,10 @@ export const api = {
       authHeaders(token)
     );
   },
+  async deleteCategory(token, categoryId) {
+    return axios.delete(
+      `${apiUrl}/api/v1/categories/${categoryId}`,
+      authHeaders(token)
+    );
+  },
 };

@@ -9,7 +9,12 @@
         </h3>
       </div>
       <div class="col">
-        <it-button class="create-category-btn" type="primary" round>
+        <it-button
+          class="create-category-btn"
+          type="primary"
+          round
+          @click="createCategoryModal = true"
+        >
           Создать Категорию
         </it-button>
       </div>
@@ -24,6 +29,15 @@
       :categories="category.children"
     />
     <div v-else class="current-category-not-found">Категория не найдена</div>
+
+    <it-modal v-model="createCategoryModal">
+      <template #body>
+        <CreateCategoryModal
+          v-model="createCategoryModal"
+          :parent-id="category.id"
+        />
+      </template>
+    </it-modal>
   </div>
 </template>
 
@@ -32,15 +46,17 @@ import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import CategoriesTable from '../components/items/CategoriesTable';
+import CreateCategoryModal from '../components/global/CreateCategoryModal';
 
 export default {
   name: 'Category',
-  components: { CategoriesTable },
+  components: { CategoriesTable, CreateCategoryModal },
   setup() {
     const route = useRoute();
     const store = useStore();
 
     const loading = ref(true);
+    const createCategoryModal = ref(false);
 
     const category = computed(() => store.getters.getCurrentCategory);
 
@@ -51,7 +67,7 @@ export default {
       setTimeout(() => (loading.value = false), 1200);
     });
 
-    return { category, loading };
+    return { category, loading, createCategoryModal };
   },
 };
 </script>

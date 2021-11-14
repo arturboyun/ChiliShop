@@ -26,7 +26,7 @@
 
     <it-modal v-model="createCategoryModal">
       <template #body>
-        <CreateCategoryModal />
+        <CreateCategoryModal v-model="createCategoryModal" />
       </template>
     </it-modal>
   </div>
@@ -43,7 +43,6 @@ export default {
   name: 'Categories',
   components: { CreateCategoryModal, CategoriesTable },
   setup() {
-    const route = useRoute();
     const store = useStore();
 
     const loading = ref(true);
@@ -55,13 +54,6 @@ export default {
       loading.value = true;
       await store.dispatch('fetchCategories', { skip: 0, limit: 100 });
       setTimeout(() => (loading.value = false), 1200);
-
-      // await store.dispatch('createCategory', {
-      //   name: 'Test 4',
-      //   title: 'Test 4 Title',
-      //   slug: 'test_4_category',
-      //   parent_id: '4',
-      // });
     });
 
     return { categories, loading, createCategoryModal };
