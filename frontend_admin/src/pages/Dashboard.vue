@@ -3,7 +3,10 @@
     <h1 class="title">Админ Панель</h1>
 
     <div class="container">
-      <div class="tiles">
+      <div v-if="loading" class="loading">
+        <it-loading />
+      </div>
+      <div v-else class="tiles">
         <info-tile
           icon-name="shopping_basket"
           title="Заказы"
@@ -28,7 +31,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import InfoTile from '../components/dashboard/InfoTile.vue';
 
@@ -37,10 +40,19 @@ export default {
   components: { InfoTile },
   setup() {
     const store = useStore();
-    const ordersCount = ref(251);
-    const productsCount = ref(56);
-    const categoriesCount = ref(8);
-    return { ordersCount, productsCount, categoriesCount };
+    const loading = ref(false);
+
+    const ordersCount = ref(0);
+    const productsCount = ref(0);
+    const categoriesCount = computed(() => store.getters.getCategoriesCount);
+
+    onMounted(async () => {
+      loading.value = true;
+      await store.dispatch('fetchCategories', { skip: 0, limit: 999 });
+      setTimeout(() => (loading.value = false), 1200);
+    });
+
+    return { loading, ordersCount, productsCount, categoriesCount };
   },
 };
 </script>
@@ -53,6 +65,13 @@ export default {
 
   .container {
     display: flex;
+  }
+
+  .loading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tiles {

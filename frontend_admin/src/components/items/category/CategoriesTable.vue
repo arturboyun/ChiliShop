@@ -19,11 +19,15 @@
         <td>{{ category.children.length }}</td>
         <td>
           <div class="actions">
-            <it-button type="primary" icon="edit" />
+            <it-button
+              type="primary"
+              icon="edit"
+              @click="async () => await openEditModal(category)"
+            />
             <it-button
               type="danger"
               icon="delete"
-              @click="openDeleteModal(category)"
+              @click="async () => await openDeleteModal(category)"
             />
             <router-link
               v-if="category.children.length > 0"
@@ -46,26 +50,58 @@
       />
     </template>
   </it-modal>
+
+  <it-modal v-model="editCategoryModal">
+    <template #body>
+      <EditCategoryModal
+        v-if="Object.keys(selectedCategory).length"
+        v-model="editCategoryModal"
+        :category="selectedCategory"
+      />
+    </template>
+  </it-modal>
 </template>
 
 <script>
-import { ref } from 'vue';
-import DeleteCategoryModal from '@/components/global/DeleteCategoryModal';
+import { ref, watch } from 'vue';
+import DeleteCategoryModal from '@/components/items/category/DeleteCategoryModal';
+import EditCategoryModal from '@/components/items/category/EditCategoryModal';
 
 export default {
   name: 'CategoriesTable',
-  components: { DeleteCategoryModal },
+  components: { EditCategoryModal, DeleteCategoryModal },
   props: { categories: { type: Array, required: true } },
   setup(props) {
     const confirmDeleteModal = ref(false);
+    const editCategoryModal = ref(false);
     const selectedCategory = ref({});
 
-    const openDeleteModal = (category) => {
+    const openDeleteModal = async (category) => {
       selectedCategory.value = category;
       confirmDeleteModal.value = true;
     };
 
-    return { props, openDeleteModal, selectedCategory, confirmDeleteModal };
+    const openEditModal = async (category) => {
+      selectedCategory.value = category;
+      editCategoryModal.value = true;
+    };
+
+    watch(confirmDeleteModal, (newValue) => {
+      if (!newValue) selectedCategory.value = {};
+    });
+
+    watch(editCategoryModal, (newValue) => {
+      if (!newValue) selectedCategory.value = {};
+    });
+
+    return {
+      props,
+      selectedCategory,
+      editCategoryModal,
+      confirmDeleteModal,
+      openDeleteModal,
+      openEditModal,
+    };
   },
 };
 </script>

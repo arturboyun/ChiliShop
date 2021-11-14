@@ -36,10 +36,21 @@ export const api = {
   async getCategoryBySlug(slug) {
     return axios.get(`${apiUrl}/api/v1/categories/slug/${slug}`);
   },
+  async getCategoryById(slug) {
+    return axios.get(`${apiUrl}/api/v1/categories/${slug}`);
+  },
   async createCategory(token, category) {
     return axios.post(
       `${apiUrl}/api/v1/categories`,
       JSON.stringify(category),
+      authHeaders(token)
+    );
+  },
+  async updateCategory(token, payload) {
+    console.log(payload);
+    return axios.put(
+      `${apiUrl}/api/v1/categories/${payload.id}`,
+      JSON.stringify(payload.form),
       authHeaders(token)
     );
   },

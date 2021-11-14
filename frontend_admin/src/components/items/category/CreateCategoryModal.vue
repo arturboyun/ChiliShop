@@ -1,5 +1,5 @@
 <template>
-  <div class="category-modal">
+  <div class="create-category-modal">
     <h2>Создание Категории</h2>
 
     <it-input
@@ -46,10 +46,10 @@ export default {
     const showMessage = app.appContext.config.globalProperties.$Message;
 
     const form = ref({
-      parent: ref(Number(props.parentId)),
-      name: ref(null),
-      title: ref(''),
-      slug: ref(''),
+      parent: Number(props.parentId),
+      name: null,
+      title: '',
+      slug: '',
     });
 
     const rules = computed(() => ({
@@ -70,8 +70,20 @@ export default {
           slug: form.value.slug,
           parent_id: form.value.parent,
         });
+        if (form.value.parent) {
+          await store.dispatch('fetchCategoryById', { id: form.value.parent });
+        }
         setTimeout(() => {}, 500);
         emit('update:modelValue', false);
+
+        form.value = {
+          parent: Number(props.parentId),
+          name: null,
+          title: '',
+          slug: '',
+        };
+
+        v$.value.$reset();
       }
     };
 
@@ -81,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.category-modal {
+.create-category-modal {
   & > * + * {
     margin-bottom: 15px;
   }

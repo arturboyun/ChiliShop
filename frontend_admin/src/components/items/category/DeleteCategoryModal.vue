@@ -28,19 +28,23 @@ export default {
     const store = useStore();
 
     const showMessage = app.appContext.config.globalProperties.$Message;
-    const confirmDeleteModal = ref(props.modelValue);
 
     const close = () => {
       emit('update:modelValue', false);
     };
     const deleteCategory = async () => {
       await store.dispatch('deleteCategory', { categoryId: props.category.id });
+      if (props.category.parent_id) {
+        await store.dispatch('fetchCategoryById', {
+          id: props.category.parent_id,
+        });
+      }
       setTimeout(() => {
         showMessage.success({ text: 'Категория удалена' });
         close();
       }, 200);
     };
-    return { confirmDeleteModal, close, deleteCategory };
+    return { close, deleteCategory };
   },
 };
 </script>

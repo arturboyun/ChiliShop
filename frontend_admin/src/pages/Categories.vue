@@ -36,8 +36,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import CategoriesTable from '../components/items/CategoriesTable';
-import CreateCategoryModal from '@/components/global/CreateCategoryModal';
+import CategoriesTable from '../components/items/category/CategoriesTable';
+import CreateCategoryModal from '@/components/items/category/CreateCategoryModal';
 
 export default {
   name: 'Categories',

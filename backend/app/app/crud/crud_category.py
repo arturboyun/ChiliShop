@@ -17,7 +17,7 @@ class CRUDCategory(CRUDBase[Category, CategoryCreate, CategoryUpdate]):
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100
     ) -> List[Category]:
-        return db.query(self.model).filter_by(parent_id=None).offset(skip).limit(limit).all()
+        return db.query(self.model).filter_by(parent_id=None).order_by(self.model.id).offset(skip).limit(limit).all()
 
 
 category = CRUDCategory(Category)

@@ -6,7 +6,7 @@ from pydantic import BaseModel, validator
 
 # Shared properties
 class CategoryBase(BaseModel):
-    name: Optional[int] = None
+    name: Optional[str] = None
     title: Optional[str] = None
     slug: Optional[str] = None
     parent_id: Optional[int] = None

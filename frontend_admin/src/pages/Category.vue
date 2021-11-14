@@ -25,9 +25,19 @@
     </div>
 
     <CategoriesTable
-      v-else-if="!loading && Object.keys(category).length > 0"
+      v-else-if="
+        !loading &&
+        Object.keys(category).length > 0 &&
+        category.children.length > 0
+      "
       :categories="category.children"
     />
+    <div
+      v-else-if="category.children.length <= 0"
+      class="current-category-not-found"
+    >
+      Подкатегорий не найдено.
+    </div>
     <div v-else class="current-category-not-found">Категория не найдена</div>
 
     <it-modal v-model="createCategoryModal">
@@ -42,11 +52,11 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import CategoriesTable from '../components/items/CategoriesTable';
-import CreateCategoryModal from '../components/global/CreateCategoryModal';
+import CategoriesTable from '../components/items/category/CategoriesTable';
+import CreateCategoryModal from '../components/items/category/CreateCategoryModal';
 
 export default {
   name: 'Category',
@@ -60,12 +70,22 @@ export default {
 
     const category = computed(() => store.getters.getCurrentCategory);
 
-    onMounted(async () => {
-      const slug = route.params.slug;
+    const fetchCategories = async (slug) => {
       loading.value = true;
       await store.dispatch('fetchCategoryBySlug', { slug });
       setTimeout(() => (loading.value = false), 1200);
+    };
+
+    onMounted(async () => {
+      await fetchCategories(route.params.slug);
     });
+
+    watch(
+      () => route.params.slug,
+      async (newValue) => {
+        if (newValue) await fetchCategories(newValue);
+      }
+    );
 
     return { category, loading, createCategoryModal };
   },

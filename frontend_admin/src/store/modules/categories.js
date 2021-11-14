@@ -9,6 +9,9 @@ const getters = {
   getCategories(state) {
     return state.categories;
   },
+  getCategoriesCount(state) {
+    return state.categories.length;
+  },
   getCurrentCategory(state) {
     return state.currentCategory;
   },
@@ -21,6 +24,12 @@ const actions = {
       await commit('setCategories', response.data);
     } catch (err) {}
   },
+  async fetchCategoryById({ commit }, payload) {
+    try {
+      const response = await api.getCategoryById(payload.id);
+      await commit('setCurrentCategory', response.data);
+    } catch (err) {}
+  },
   async fetchCategoryBySlug({ commit }, payload) {
     try {
       const response = await api.getCategoryBySlug(payload.slug);
@@ -30,6 +39,15 @@ const actions = {
   async createCategory({ commit, dispatch, rootState }, payload) {
     try {
       const response = await api.createCategory(
+        rootState.auth.authToken,
+        payload
+      );
+      await dispatch('fetchCategories', { skip: 0, limit: 500 });
+    } catch (err) {}
+  },
+  async updateCategory({ commit, dispatch, rootState }, payload) {
+    try {
+      const response = await api.updateCategory(
         rootState.auth.authToken,
         payload
       );
