@@ -36,6 +36,7 @@ h2 {
 
 .table {
   overflow-x: auto;
+  overflow-y: visible;
   padding: 25px;
   background-color: #fff;
   border-radius: 4px;
@@ -63,4 +64,8 @@ h2 {
       margin-right: 15px;
     }
   }
+}
+
+.it-modal-content {
+  padding: 32px;
 }

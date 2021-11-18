@@ -6,6 +6,7 @@ from starlette.requests import Request
 
 from app import crud, models, schemas
 from app.api import deps
+from app.schemas import Msg
 
 router = APIRouter()
 
@@ -44,7 +45,7 @@ def upload_image(
     return image
 
 
-@router.delete("/{id}", response_model=schemas.Image)
+@router.delete("/{id}", response_model=schemas.Msg)
 def delete_image(
     *,
     db: Session = Depends(deps.get_db),
@@ -58,4 +59,4 @@ def delete_image(
     if not image:
         raise HTTPException(status_code=404, detail="Image not found")
     image = crud.image.remove(db=db, id=id)
-    return image
+    return Msg(msg='Image Deleted')

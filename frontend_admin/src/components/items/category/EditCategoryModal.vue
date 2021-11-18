@@ -4,16 +4,20 @@
 
     <it-input
       v-model="form.name"
-      :status="v$.name.$errors.length ? 'danger' : ''"
-      :message="v$.name.$errors.length && v$.name.$errors[0].$message"
+      :status="v$.name.$errors.length ? 'danger' : undefined"
+      :message="
+        v$.name.$errors.length ? v$.name.$errors[0].$message : undefined
+      "
       label-top="Имя"
       placeholder="Имя Категории"
     />
 
     <it-input
       v-model="form.title"
-      :status="v$.title.$errors.length ? 'danger' : ''"
-      :message="v$.title.$errors.length && v$.title.$errors[0].$message"
+      :status="v$.title.$errors.length ? 'danger' : undefined"
+      :message="
+        v$.title.$errors.length ? v$.title.$errors[0].$message : undefined
+      "
       label-top="Заголовок"
       placeholder="Заголовок Категории"
     />
@@ -77,6 +81,11 @@ export default {
         showMessage.warning({ text: 'Что-то пошло не так!' });
       } else {
         await store.dispatch('updateCategory', { id: props.category.id, form });
+        if (props.category.parent_id) {
+          await store.dispatch('fetchCategoryById', {
+            id: props.category.parent_id,
+          });
+        }
         setTimeout(() => {}, 500);
         emit('update:modelValue', false);
       }

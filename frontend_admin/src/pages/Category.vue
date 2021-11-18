@@ -9,14 +9,24 @@
         </h3>
       </div>
       <div class="col">
-        <it-button
-          class="create-category-btn"
-          type="primary"
-          round
-          @click="createCategoryModal = true"
-        >
-          Создать Категорию
-        </it-button>
+        <div class="row">
+          <it-button
+            class="create-category-btn"
+            type="primary"
+            round
+            @click="createCategoryModal = true"
+          >
+            Создать Категорию
+          </it-button>
+          <it-button
+            class="create-product-btn"
+            type="primary"
+            round
+            @click="createProductModalIsOpen = true"
+          >
+            Создать Товар
+          </it-button>
+        </div>
       </div>
     </div>
 
@@ -48,6 +58,16 @@
         />
       </template>
     </it-modal>
+
+    <it-modal v-model="createProductModalIsOpen">
+      <template #body>
+        <CreateProductModal
+          v-if="createProductModalIsOpen"
+          v-model="createProductModalIsOpen"
+          :category-id="category.id"
+        />
+      </template>
+    </it-modal>
   </div>
 </template>
 
@@ -57,23 +77,25 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import CategoriesTable from '../components/items/category/CategoriesTable';
 import CreateCategoryModal from '../components/items/category/CreateCategoryModal';
+import CreateProductModal from '@/components/items/product/CreateProductModal';
 
 export default {
   name: 'Category',
-  components: { CategoriesTable, CreateCategoryModal },
+  components: { CreateProductModal, CategoriesTable, CreateCategoryModal },
   setup() {
     const route = useRoute();
     const store = useStore();
 
     const loading = ref(true);
     const createCategoryModal = ref(false);
+    const createProductModalIsOpen = ref(false);
 
     const category = computed(() => store.getters.getCurrentCategory);
 
     const fetchCategories = async (slug) => {
       loading.value = true;
       await store.dispatch('fetchCategoryBySlug', { slug });
-      setTimeout(() => (loading.value = false), 1200);
+      setTimeout(() => (loading.value = false), 500);
     };
 
     onMounted(async () => {
@@ -87,7 +109,7 @@ export default {
       }
     );
 
-    return { category, loading, createCategoryModal };
+    return { category, loading, createCategoryModal, createProductModalIsOpen };
   },
 };
 </script>
@@ -111,6 +133,19 @@ export default {
     justify-content: space-between;
     width: 100%;
     margin-bottom: 15px;
+
+    .col {
+      display: flex;
+      flex-direction: column;
+
+      .row {
+        display: flex;
+
+        *:not(:last-child) {
+          margin-right: 15px;
+        }
+      }
+    }
   }
 
   .current-category-not-found {

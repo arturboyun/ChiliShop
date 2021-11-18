@@ -4,16 +4,20 @@
 
     <it-input
       v-model="form.name"
-      :status="v$.name.$errors.length ? 'danger' : ''"
-      :message="v$.name.$errors.length && v$.name.$errors[0].$message"
+      :status="v$.name.$errors.length ? 'danger' : undefined"
+      :message="
+        v$.name.$errors.length ? v$.name.$errors[0].$message : undefined
+      "
       label-top="* Имя"
       placeholder="Имя Категории"
     />
 
     <it-input
       v-model="form.title"
-      :status="v$.title.$errors.length ? 'danger' : ''"
-      :message="v$.title.$errors.length && v$.title.$errors[0].$message"
+      :status="v$.title.$errors.length ? 'danger' : undefined"
+      :message="
+        v$.title.$errors.length ? v$.title.$errors[0].$message : undefined
+      "
       label-top="* Заголовок"
       placeholder="Заголовок Категории"
     />
@@ -37,12 +41,13 @@ const requiredRus = helpers.withMessage('Это поле обязательно'
 export default {
   props: {
     modelValue: { type: Boolean, default: false },
-    parentId: { type: [String || Number], default: 0 },
+    parentId: { type: [String, Number], default: '0' },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const app = getCurrentInstance();
     const store = useStore();
+    const app = getCurrentInstance();
+
     const showMessage = app.appContext.config.globalProperties.$Message;
 
     const form = ref({
@@ -84,6 +89,7 @@ export default {
         };
 
         v$.value.$reset();
+        showMessage.success({ text: 'Товар создан.' });
       }
     };
 

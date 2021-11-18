@@ -82,8 +82,18 @@ export default {
         to: '/categories',
       },
     ]);
+
     let isOpen = ref(false);
-    const toggle = () => (isOpen.value = !isOpen.value);
+
+    const toggle = () => {
+      isOpen.value = !isOpen.value;
+      const page = document.querySelector('.page');
+      if (isOpen.value) {
+        page.style.padding = `28px 28px 28px ${280 + 25}px`;
+      } else {
+        page.style.padding = '28px 28px 28px 89px';
+      }
+    };
     const makeLogout = async () => {
       showMessage.warning({ text: 'Вы вышли.' });
       await store.dispatch('logout');
@@ -96,7 +106,7 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

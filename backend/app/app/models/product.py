@@ -19,6 +19,7 @@ class Product(Base):
     description = Column(String, index=True)
     price = Column(DECIMAL(15, 2), nullable=False)
     quantity = Column(Integer, nullable=False)
+    top_sizes = Column(ARRAY(String))
     sizes = Column(ARRAY(String))
 
     creator_id = Column(Integer, ForeignKey("user.id"))

@@ -53,7 +53,7 @@ export default {
     onMounted(async () => {
       loading.value = true;
       await store.dispatch('fetchCategories', { skip: 0, limit: 100 });
-      setTimeout(() => (loading.value = false), 1200);
+      setTimeout(() => (loading.value = false), 500);
     });
 
     return { categories, loading, createCategoryModal };

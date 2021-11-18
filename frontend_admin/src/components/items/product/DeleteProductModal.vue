@@ -1,26 +1,26 @@
 <template>
-  <div class="delete-category-modal">
-    <h3>Удаление Категории</h3>
+  <div class="delete-product-modal">
+    <h3>Удаление Товара</h3>
     <p class="text">
-      Вы уверены, что желаете удалить категорию <b>"{{ category.name }}"</b> и
-      <b>ID {{ category.id }}</b> ?
+      Вы уверены, что желаете удалить товар <b>"{{ product.title }}"</b> и
+      <b>ID {{ product.id }}</b> ?
     </p>
     <div class="actions">
       <it-button @click="close">Отмена</it-button>
-      <it-button type="danger" @click="deleteCategory">Удалить</it-button>
+      <it-button type="danger" @click="deleteProduct">Удалить</it-button>
     </div>
   </div>
 </template>
 
 <script>
-import { getCurrentInstance, ref, watch } from 'vue';
+import { getCurrentInstance } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  name: 'DeleteCategoryModal',
+  name: 'DeleteProductModal',
   props: {
     modelValue: { type: Boolean, default: false },
-    category: { type: Object, required: true },
+    product: { type: Object, required: true },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
@@ -32,19 +32,16 @@ export default {
     const close = () => {
       emit('update:modelValue', false);
     };
-    const deleteCategory = async () => {
-      await store.dispatch('deleteCategory', { id: props.category.id });
-      if (props.category.parent_id) {
-        await store.dispatch('fetchCategoryById', {
-          id: props.category.parent_id,
-        });
-      }
+
+    const deleteProduct = async () => {
+      await store.dispatch('deleteProduct', { id: props.product.id });
+
       setTimeout(() => {
-        showMessage.success({ text: 'Категория удалена' });
+        showMessage.success({ text: 'Товар удален.' });
         close();
       }, 500);
     };
-    return { close, deleteCategory };
+    return { close, deleteProduct };
   },
 };
 </script>

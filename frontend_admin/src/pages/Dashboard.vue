@@ -43,13 +43,14 @@ export default {
     const loading = ref(false);
 
     const ordersCount = ref(0);
-    const productsCount = ref(0);
     const categoriesCount = computed(() => store.getters.getCategoriesCount);
+    const productsCount = computed(() => store.getters.getProductsCount);
 
     onMounted(async () => {
       loading.value = true;
       await store.dispatch('fetchCategories', { skip: 0, limit: 999 });
-      setTimeout(() => (loading.value = false), 1200);
+      await store.dispatch('fetchProducts', { skip: 0, limit: 999 });
+      setTimeout(() => (loading.value = false), 500);
     });
 
     return { loading, ordersCount, productsCount, categoriesCount };

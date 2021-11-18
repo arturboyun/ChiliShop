@@ -9,6 +9,7 @@ from app import crud, models, schemas
 from app.api import deps
 from starlette.requests import Request
 
+from app.schemas import Msg
 from app.utils import random_lower_string
 
 router = APIRouter()
@@ -152,7 +153,7 @@ def read_product_by_slug(
     return product
 
 
-@router.delete("/{id}", response_model=schemas.Product)
+@router.delete("/{id}", response_model=schemas.Msg)
 def delete_product(
     *,
     db: Session = Depends(deps.get_db),
@@ -166,4 +167,4 @@ def delete_product(
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     product = crud.product.remove(db=db, id=id)
-    return product
+    return Msg(msg='Product Deleted')

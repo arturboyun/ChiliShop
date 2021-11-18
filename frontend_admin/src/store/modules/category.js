@@ -1,4 +1,4 @@
-import { api } from '../../api';
+import { api } from '@/api';
 
 const state = {
   categories: [],
@@ -20,25 +20,28 @@ const getters = {
 const actions = {
   async fetchCategories({ commit }, payload) {
     try {
-      const response = await api.getCategories(payload.skip, payload.limit);
+      const response = await api.category.getCategories(
+        payload.skip,
+        payload.limit
+      );
       await commit('setCategories', response.data);
     } catch (err) {}
   },
   async fetchCategoryById({ commit }, payload) {
     try {
-      const response = await api.getCategoryById(payload.id);
+      const response = await api.category.getCategoryById(payload.id);
       await commit('setCurrentCategory', response.data);
     } catch (err) {}
   },
   async fetchCategoryBySlug({ commit }, payload) {
     try {
-      const response = await api.getCategoryBySlug(payload.slug);
+      const response = await api.category.getCategoryBySlug(payload.slug);
       await commit('setCurrentCategory', response.data);
     } catch (err) {}
   },
   async createCategory({ commit, dispatch, rootState }, payload) {
     try {
-      const response = await api.createCategory(
+      const response = await api.category.createCategory(
         rootState.auth.authToken,
         payload
       );
@@ -47,18 +50,18 @@ const actions = {
   },
   async updateCategory({ commit, dispatch, rootState }, payload) {
     try {
-      const response = await api.updateCategory(
+      const response = await api.category.updateCategory(
         rootState.auth.authToken,
         payload
       );
       await dispatch('fetchCategories', { skip: 0, limit: 500 });
     } catch (err) {}
   },
-  async deleteCategory({ commit, dispatch, rootState }, { categoryId }) {
+  async deleteCategory({ commit, dispatch, rootState }, { id }) {
     try {
-      const response = await api.deleteCategory(
+      const response = await api.category.deleteCategory(
         rootState.auth.authToken,
-        categoryId
+        id
       );
       await dispatch('fetchCategories', { skip: 0, limit: 500 });
     } catch (err) {}

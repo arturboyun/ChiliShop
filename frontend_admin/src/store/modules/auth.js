@@ -24,7 +24,7 @@ const getters = {
 const actions = {
   async loginGetToken({ commit, dispatch }, { username, password }) {
     try {
-      const response = await api.loginGetToken(username, password);
+      const response = await api.auth.loginGetToken(username, password);
       const { access_token } = response.data;
       await commit('saveAuthToken', access_token);
       await commit('setLoggedIn', true);
@@ -32,11 +32,11 @@ const actions = {
       await dispatch('logout');
     }
   },
-  async testToken({ state, commit, dispatch }) {
+  async testToken({ commit, dispatch }) {
     const authToken = await utils.getAuthToken();
     if (authToken) {
       try {
-        await api.testAuthToken(authToken);
+        await api.auth.testAuthToken(authToken);
         await commit('setLoggedIn', true);
         await commit('setAuthToken', authToken);
       } catch (err) {
@@ -48,7 +48,7 @@ const actions = {
   },
   async getMe({ state, commit, dispatch }) {
     try {
-      const response = await api.getMe(state.authToken);
+      const response = await api.auth.getMe(state.authToken);
       await commit('setUserInfo', response.data);
     } catch (err) {
       await dispatch('logout');

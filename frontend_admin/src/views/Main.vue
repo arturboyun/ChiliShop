@@ -56,7 +56,8 @@ export default {
 .page {
   width: 100%;
   overflow: hidden;
-  padding: 28px;
+  padding: 28px 28px 28px 89px;
+  transition: all 0.3s ease;
 }
 
 .theme-button {
